@@ -21,6 +21,7 @@ function App() {
         </button>
       </div>
       <button onClick={goToProfile}>Profile</button>
+      <Profile />
     </>
   )
 }
