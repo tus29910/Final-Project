@@ -1,81 +1,89 @@
 .profile {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 2rem;
-    padding: 4rem 2rem;
-    background: darkgray;
-    max-width: 900px;
-    margin: 0 auto;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 3rem;
+  background: #2c2c2c;
+  max-width: 900px;
+  margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
 
-  .profileInfo {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    flex: 1;
-    background: grey;
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .profileInfo h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-  
-  .profile img {
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 1rem;
-  }
-  
-  .profile p {
-    font-size: 1.2rem;
-    max-width: 500px;
-    line-height: 1.6;
-  }
-  
-  .reviews {
-    flex: 1;
-    background: grey;
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .reviews h2 {
-    font-size: 2rem;
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-  
-  @media (max-width: 768px) {
-    .profile {
+.profileInfo {
+  flex: 1;
+  background: #3a3a3a;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.profileInfo h2 {
+  font-size: 1.8rem;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.profilePicture {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+.username {
+  font-size: 1.2rem;
+  color: #ddd;
+}
+
+.reviews {
+  flex: 1;
+  background: #3a3a3a;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.reviews h2 {
+  font-size: 1.8rem;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.reviewList {
+  list-style: none;
+  padding: 0;
+}
+
+.reviewList li {
+  background: #4a4a4a;
+  padding: 0.8rem;
+  margin: 0.5rem 0;
+  border-radius: 5px;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .profile {
       flex-direction: column;
       align-items: center;
       text-align: center;
-    }
-  
-    .profileInfo {
-      align-items: center;
-    }
-  
-    .profile img {
-      width: 150px;
-      height: 150px;
-    }
-  
-    .profile p {
-      font-size: 1rem;
-      max-width: 100%;
-    }
-  
-    .reviews {
-      width: 100%;
-    }
   }
-  
+
+  .profileInfo, .reviews {
+      width: 100%;
+  }
+
+  .profilePicture {
+      width: 120px;
+      height: 120px;
+  }
+
+  .username {
+      font-size: 1rem;
+  }
+}
