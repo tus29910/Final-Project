@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import styles from  './Login.module.css';
 
-const loginPage = () => {
+const Login = () => {
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -16,9 +16,9 @@ const loginPage = () => {
     };
 
     return(
-        <div className = "styles.loginContainer">
-            <div className = "styles.loginBox">
-                <h1 className = "styles.loginTitle">User Login</h1>
+        <div className = {styles.loginContainer}>
+            <div className = {styles.loginBox}>
+                <h1 className = {styles.loginTitle}>User Login</h1>
                 {error && <p>{error}</p>}
                 <input type="text" placeholder="Username" value={username} onchange={(e) => setUserName(e.target.value)}/>
                 <input type="password" placeholder="Password" value={password} onchange={(e) => setPassword(e.target.value)}/>
@@ -28,4 +28,4 @@ const loginPage = () => {
     )
 }
 
-export default loginPage;
+export default Login;
