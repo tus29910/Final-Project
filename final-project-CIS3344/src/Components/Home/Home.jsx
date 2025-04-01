@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import styles from './Home.module.css';
+import MovieSearch from '../MovieSearch';
 
 const Home = () => {
   return (
@@ -18,6 +19,8 @@ const Home = () => {
       <main className={styles.content}>
         <h2>Welcome to the Movie App</h2>
         <p>Explore and review your favorite movies!</p>
+
+        <MovieSearch />
       </main>
 
       <footer className={styles.footer}>
