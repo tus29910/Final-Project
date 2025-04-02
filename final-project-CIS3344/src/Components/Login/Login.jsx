@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import styles from  './Login.module.css';
+import Navbar from "../Navbar/navBar";
 
 const Login = () => {
     const [username, setUserName] = useState("");
@@ -17,6 +18,7 @@ const Login = () => {
 
     return(
         <div className = {styles.loginContainer}>
+            <Navbar />
             <div className = {styles.loginBox}>
                 <h1 className = {styles.loginTitle}>User Login</h1>
                 {error && <p>{error}</p>}
