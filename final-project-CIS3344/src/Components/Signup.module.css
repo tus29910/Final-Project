@@ -1,0 +1,12 @@
+.Container{
+
+}
+
+.Header{
+    font-size: 2rem;
+    color:beige;
+    text-align: center;
+    justify-content: center;
+    font-weight: bolder;
+    font-size:medium
+}
