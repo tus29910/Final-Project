@@ -6,14 +6,29 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
+    useEffect(() => {
+        const savedUsername = localStorage.getItem("username");
+        if(savedUsername){
+            setUserName(savedUsername);
+        }
+    }, []);
+
     const handleLogin = () => {
         if(!username || !password){
             setError("Username and password are required");
             return;
         }
         setError("");
+
+        localStorage.setItem("username",username);
         alert(`Welcome, ${username}`);
     };
+
+    const handleLogout = () =>{
+        localStorage.removeItem("username");
+        setUserName("");
+        setPassword("");
+    }
 
     return(
         <div className = {styles.loginContainer}>
@@ -23,6 +38,7 @@ const Login = () => {
                 <input type="text" placeholder="Username" value={username} onchange={(e) => setUserName(e.target.value)}/>
                 <input type="password" placeholder="Password" value={password} onchange={(e) => setPassword(e.target.value)}/>
                 <button onclick ={handleLogin}>Login</button>
+                <button onclick={handleLogout}>Logout</button>
             </div>
         </div>
     )
