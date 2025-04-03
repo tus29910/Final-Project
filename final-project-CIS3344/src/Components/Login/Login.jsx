@@ -1,5 +1,6 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styles from  './Login.module.css';
+import Home from './Home/Home.jsx';
 
 const Login = () => {
     const [username, setUserName] = useState("");
@@ -35,13 +36,13 @@ const Login = () => {
             <div className = {styles.loginBox}>
                 <h1 className = {styles.loginTitle}>User Login</h1>
                 {error && <p>{error}</p>}
-                <input type="text" placeholder="Username" value={username} onchange={(e) => setUserName(e.target.value)}/>
-                <input type="password" placeholder="Password" value={password} onchange={(e) => setPassword(e.target.value)}/>
-                <button onclick ={handleLogin}>Login</button>
-                <button onclick={handleLogout}>Logout</button>
+                <input type="text" placeholder="Username" value={username} onChange={(e) => setUserName(e.target.value)}/>
+                <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                <button onClick ={handleLogin}>Login</button>
+                <button onClick={handleLogout}>Logout</button>
             </div>
         </div>
-    )
+    );
 }
 
 export default Login;
