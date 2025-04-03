@@ -1,11 +1,11 @@
-.loginContainer {
+/* .loginContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     background-color: #111;
     color: white;
-  }
+  } */
   
   .loginBox {
     background-color: #222;
@@ -23,10 +23,6 @@
     color: #fbc02d;
   }
   
-  .loginError {
-    color: #e57373;
-    margin-bottom: 10px;
-  }
   
   .loginInput {
     width: 100%;
@@ -47,8 +43,3 @@
     font-weight: bold;
     cursor: pointer;
   }
-  
-  .loginButton:hover {
-    background-color: #ffb300;
-  }
-  

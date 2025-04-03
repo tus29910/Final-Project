@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import styles from  './Login.module.css';
-import Home from './Home/Home.jsx';
 
 const Login = () => {
     const [username, setUserName] = useState("");
@@ -34,7 +33,7 @@ const Login = () => {
     return(
         <div className = {styles.loginContainer}>
             <div className = {styles.loginBox}>
-                <h1 className = {styles.loginTitle}>User Login</h1>
+                <h1 className = {styles.loginTitle}>Verify Login</h1>
                 {error && <p>{error}</p>}
                 <input type="text" placeholder="Username" value={username} onChange={(e) => setUserName(e.target.value)}/>
                 <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}/>
