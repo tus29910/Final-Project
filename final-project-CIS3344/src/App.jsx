@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import Profile from './Components/Profile/Profile';
-import Home from './Components/Home/Home';
+import Profile from './Components/Profile/Profile.jsx';
+import Home from './Components/Home/Home.jsx';
 // eslint-disable-next-line no-unused-vars
-import Login from './Components/Login/Login';
+import Login from './Components/Login/Login.jsx';
 
 function App() {
   return (
