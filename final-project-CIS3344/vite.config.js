@@ -7,7 +7,7 @@ export default defineConfig({
     environment: 'jsdom',
     coverage: {
       provider: "v8",
-    }
+    },
   },
   plugins: [react()],
 })
