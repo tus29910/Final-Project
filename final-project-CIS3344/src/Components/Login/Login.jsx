@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import styles from  './Login.module.css';
+import React, { useState } from "react";
+import styles from './Login.module.css';
 import Navbar from "../Navbar/navBar";
 
 const Login = () => {
@@ -8,7 +8,7 @@ const Login = () => {
     const [error, setError] = useState("");
 
     const handleLogin = () => {
-        if(!username || !password){
+        if (!username || !password) {
             setError("Username and password are required");
             return;
         }
@@ -16,18 +16,34 @@ const Login = () => {
         alert(`Welcome, ${username}`);
     };
 
-    return(
-        <div className = {styles.loginContainer}>
+    return (
+        <div className={styles.loginPage}>
             <Navbar />
-            <div className = {styles.loginBox}>
-                <h1 className = {styles.loginTitle}>User Login</h1>
-                {error && <p>{error}</p>}
-                <input type="text" placeholder="Username" value={username} onchange={(e) => setUserName(e.target.value)}/>
-                <input type="password" placeholder="Password" value={password} onchange={(e) => setPassword(e.target.value)}/>
-                <button onclick ={handleLogin}>Login</button>
+            <div className={styles.loginContainer}>
+                <div className={styles.loginBox}>
+                    <h1 className={styles.loginTitle}>User Login</h1>
+                    {error && <p className={styles.loginError}>{error}</p>}
+                    <input
+                        type="text"
+                        placeholder="Username"
+                        value={username}
+                        onChange={(e) => setUserName(e.target.value)}
+                        className={styles.loginInput}
+                    />
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className={styles.loginInput}
+                    />
+                    <button onClick={handleLogin} className={styles.loginButton}>
+                        Login
+                    </button>
+                </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Login;

@@ -4,7 +4,6 @@ import userEvent from "@testing-library/user-event";
 import Navbar from "./Navbar";
 import { BrowserRouter } from "react-router-dom";
 
-// Simple wrapper for Router
 const renderWithRouter = (ui) => {
   return render(<BrowserRouter>{ui}</BrowserRouter>);
 };
