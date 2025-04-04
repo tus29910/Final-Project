@@ -9,5 +9,5 @@ export default defineConfig({
       provider: "v8",
     },
   },
-  // plugins: [react()],
+  plugins: [react()],
 });
