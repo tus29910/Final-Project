@@ -1,8 +1,13 @@
-import {src/Components/Login/Login.test.jsx;
+
+import { render, screen } from "@testing-library/react";
+import Login from "Components/Login/Login";
+
+
+
 describe('Login Component', () => {
     it("Renders a default login", () => {
         render(<Login />);
-        const loginElement = screen.getByText("Login");
+        const loginElement = screen.getByText("Verify Username");
         expect(loginElement).toBeInTheDocument();
     })
 });
