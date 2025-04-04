@@ -1,22 +1,13 @@
-import { Link } from 'react-router-dom';
 import React from "react";
 import styles from './Home.module.css';
 import MovieSearch from '../MovieSearch';
+import Navbar from '../Navbar/navBar';
+
 
 const Home = () => {
   return (
     <div className={styles.home}>
-      <header className={styles.header}>
-        <h1>Movie App</h1>
-        <nav>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/profile">Profile</Link></li>
-            <li><Link to="/login">Login</Link></li>
-          </ul>
-        </nav>
-      </header>
-
+      <Navbar />
       <main className={styles.content}>
         <h2>Welcome to the Movie App</h2>
         <p>Explore and review your favorite movies!</p>

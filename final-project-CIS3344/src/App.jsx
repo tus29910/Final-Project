@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import Profile from './Components/Profile/Profile.jsx';
-import Home from './Components/Home/Home.jsx';
-// eslint-disable-next-line no-unused-vars
-import Login from './Components/Login/Login.jsx';
+import Profile from './Components/Profile/Profile';
+import Home from './Components/Home/Home';
+import Login from './Components/Login/Login';
+import MovieDetailView from './Components/DetailView/MovieDetailView';
 
 function App() {
   return (
@@ -13,6 +13,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/movieDetailView" element={<MovieDetailView />} />        
       </Routes>
     </Router>
   );
