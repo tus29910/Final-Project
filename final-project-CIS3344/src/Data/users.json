@@ -1,0 +1,51 @@
+[
+    {
+      "id": 1,
+      "username": "moviebuff123",
+      "password": "password123",  
+      "profile_picture": "./profileExample.jpg",
+      "bio": "Just a huge fan of mind-bending thrillers and sci-fi.",
+      "rated_movies": [
+        {
+          "movie_id": 1,  
+          "rating": 5,
+          "review": "Absolutely brilliant. Nolan at his best!"
+        },
+        {
+          "movie_id": 2,
+          "rating": 5,
+          "review": "Visually stunning and emotionally powerful."
+        },
+        {
+          "movie_id": 3,
+          "rating": 4,
+          "review": "Dark and intense — iconic Joker performance."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "username": "comedyfan99",
+      "password": "funnybone",  
+      "profile_picture": "/profiles/user2.png",
+      "bio": "Here for the laughs — comedy is life.",
+      "rated_movies": [
+        {
+          "movie_id": 4,
+          "rating": 5,
+          "review": "Childhood classic. Still hits the feels."
+        },
+        {
+          "movie_id": 6,
+          "rating": 4,
+          "review": "Wild ride — hilarious chaos!"
+        },
+        {
+          "movie_id": 5,
+          "rating": 3,
+          "review": "Dark, but not really my vibe."
+        }
+      ]
+    }
+  ]
+  
