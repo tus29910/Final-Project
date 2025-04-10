@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from './Login.module.css';
 import Navbar from "../Navbar/navBar";
-import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Login = () => {
     const [username, setUserName] = useState("");
@@ -16,21 +16,24 @@ const Login = () => {
     }, []);
 
     const handleLogin = () => {
-        if (!username || !password) {
+        const savedEmail = localStorage.getItem("email");
+        const savedPassword = localStorage.getItem("password");
+
+        if (!username || !password){
             setError("Username and password are required");
             return;
         }
+
+        if(username !== savedEmail || password !== savedPassword)
+        {
+            setError("Invalid Login");
+            return;
+        }
+
         setError("");
-
-        localStorage.setItem("username",username);
-        alert(`Welcome, ${username}`);
+        alert(`Welcome ${username}`);
+        localStorage.setItem("username", username);
     };
-
-//     const handleLogout = () =>{
-//         localStorage.removeItem("username");
-//         setUserName("");
-//         setPassword("");
-//     }
 
     return (
         <div className={styles.loginPage}>
@@ -56,6 +59,10 @@ const Login = () => {
                     <button onClick={handleLogin} className={styles.loginButton}>
                         Login
                     </button>
+
+                    <p className={styles.signupLink}>
+                        Don't have an account? <Link to="/signup">Sign Up Here</Link>
+                    </p>
                 </div>
             </div>
         </div>
