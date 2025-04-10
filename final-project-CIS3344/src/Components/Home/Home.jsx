@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.css';
 import Navbar from '../Navbar/navBar';
 
+const apiKey = import.meta.env.VITE_API_KEY;
 const API_URL =`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`;
-const apiKey = import.meta.env.ANTONIO_VITE_API_KEY;
 
 
 const Home = () => {
