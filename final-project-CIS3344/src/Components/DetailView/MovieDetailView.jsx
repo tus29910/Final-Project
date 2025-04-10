@@ -1,10 +1,29 @@
 import React from 'react';
-import moviesData from '../../Data/movies.json';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Navbar from '../Navbar/navBar';
 import styles from './MovieDetailView.module.css';
 
 const MovieDetailView = () => {
-    const movie = moviesData[0];
+    const { state } = useLocation();
+    const navigate = useNavigate();
+
+    const movie = state?.movie;
+
+    if (!movie) {
+        return (
+            <div className={styles.container}>
+                <Navbar />
+                <div className={styles.wrapper}>
+                    <h2>Movie not found!</h2>
+                    <button onClick={() => navigate(-1)} className={styles.button}>
+                        Go Back
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    console.log(movie);
 
     return (
         <div className={styles.container}>
@@ -20,9 +39,9 @@ const MovieDetailView = () => {
                         <h1 className={styles.title}>{movie.title}</h1>
                     </div>
                     <div className={styles.details}>
-                        <p><strong>Genre:</strong> {movie.type}</p>
-                        <p><strong>Rating:</strong> {movie.rating}</p>
-                        <p><strong>Overview:</strong> {movie.description}</p>
+                        <p><strong>Genre:</strong> {movie.genre_ids}</p>
+                        <p><strong>Rating:</strong> {movie.popularity}</p>
+                        <p><strong>Overview:</strong> {movie.overview}</p>
 
                         <h3>User Reviews:</h3>
                         <ul className={styles.reviews}>

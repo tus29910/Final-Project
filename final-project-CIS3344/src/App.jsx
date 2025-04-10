@@ -10,15 +10,15 @@ import movies from './data/movies.json';
 
 function App() {
   const currentUser = users[0];
-  // Replace with login state later
-
+  // const currentUserId = currentUser.id;
+  
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile user={currentUser} movies={movies} />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/movieDetailView" element={<MovieDetailView />} />        
+        <Route path="/movie/:id" element={<MovieDetailView />} />
       </Routes>
     </Router>
   );
