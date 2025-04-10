@@ -2,12 +2,12 @@
     {
       "id": 1,
       "username": "moviebuff123",
-      "password": "password123",
+      "password": "password123",  
       "profile_picture": "./profileExample.jpg",
       "bio": "Just a huge fan of mind-bending thrillers and sci-fi.",
       "rated_movies": [
         {
-          "movie_id": 1,
+          "movie_id": 1,  
           "rating": 5,
           "review": "Absolutely brilliant. Nolan at his best!"
         },
@@ -26,7 +26,7 @@
     {
       "id": 2,
       "username": "comedyfan99",
-      "password": "funnybone",
+      "password": "funnybone",  
       "profile_picture": "/profiles/user2.png",
       "bio": "Here for the laughs — comedy is life.",
       "rated_movies": [
@@ -47,4 +47,4 @@
         }
       ]
     }
-  ]
+]

@@ -1,8 +1,4 @@
 .profile {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 2rem;
   padding: 3rem;
   background: #2c2c2c;
   max-width: 900px;
@@ -10,14 +6,28 @@
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
+.profileContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 2rem;
+}
 
-.profileInfo {
+.profileInfo,
+.reviews {
   flex: 1;
   background: #3a3a3a;
   padding: 1.5rem;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   text-align: center;
+}
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .profileInfo h2 {
@@ -37,15 +47,6 @@
 .username {
   font-size: 1.2rem;
   color: #ddd;
-}
-
-.reviews {
-  flex: 1;
-  background: #3a3a3a;
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  text-align: center;
 }
 
 .reviews h2 {
@@ -68,22 +69,23 @@
 }
 
 @media (max-width: 768px) {
-  .profile {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
+  .profileContent {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 
-  .profileInfo, .reviews {
-      width: 100%;
+  .profileInfo,
+  .reviews {
+    width: 100%;
   }
 
   .profilePicture {
-      width: 120px;
-      height: 120px;
+    width: 120px;
+    height: 120px;
   }
 
   .username {
-      font-size: 1rem;
+    font-size: 1rem;
   }
 }
