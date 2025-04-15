@@ -7,6 +7,7 @@ const SignupPage = () => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [birth, setBirth] = useState("");
@@ -29,20 +30,22 @@ const SignupPage = () => {
         <div className = "styles.Container">
             <h1 className = {styles.Header}>Create A New Account</h1>
             {error && <p>{error}</p>}
-            <label>First Name: </label>
-            <input type="text" placeholder="firstName" value={firstName} required onchange={(e) => setFirstName(e.target.value) }/>
-            <label>Last Name: </label>
-            <input type="text" placeholder="lastName" value={lastName} required onchange={(e) => setLastName(e.target.value)}/>
-            <label>Email: </label>
-            <input type="email" placeholder="Email" value={email} required onchange={(e) => setEmail(e.target.value)}/>
-            <label>Password: </label>
-            <input type="password" placeholder="Password" value={password} required onchange={(e) => setPassword(e.target.value)}/>
-            <label>New Password: </label>
-            <input type="password" placeholder="newPassword" value={newPassword} required onchange={(e) => setNewPassword(e.target.value)}/>
-            <label>Birth Date: </label>
-            <input type="date" placeholder="date" value={birth} required onchange={(e) => setBirth(e.target.value)}/>
-            <label>Phone Number: </label>
-            <input type="number" placeholder="phoneNum" value={phoneNum} required onchange={(e) => setPhoneNum(e.target.value)}/>
+            <label>First Name </label>
+            <input type="text" placeholder="First Name" value={firstName} required onChange={(e) => setFirstName(e.target.value) }/>
+            <label>Last Name </label>
+            <input type="text" placeholder="Last Name" value={lastName} required onChange={(e) => setLastName(e.target.value)}/>
+            <label>Email </label>
+            <input type="email" placeholder="Email" value={email} required onChange={(e) => setEmail(e.target.value)}/>
+            <label>Username </label>
+            <input type="username" placeholder="Username" value={username} required onChange ={(e) => setUsername(e.target.value)}/>
+            <label>Password </label>
+            <input type="password" placeholder="Password" value={password} required onChange={(e) => setPassword(e.target.value)}/>
+            <label>New Password </label>
+            <input type="password" placeholder="Confirm Password" value={newPassword} required onChange={(e) => setNewPassword(e.target.value)}/>
+            <label>Birth Date </label>
+            <input type="date" placeholder="date" value={birth} required onChange={(e) => setBirth(e.target.value)}/>
+            <label>Phone Number </label>
+            <input type="number" placeholder="### ### ####" value={phoneNum} required onChange={(e) => setPhoneNum(e.target.value)}/>
 
             <button onClick={signupForm}>Submit</button>
 

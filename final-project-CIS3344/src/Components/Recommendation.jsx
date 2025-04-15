@@ -1,6 +1,7 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 
 const MovieRecommendation = () =>{
+    const username = localStorage.getItem("username");
     const[likeMovies, setLikedMovies] = useState([]);
     const[recommendedMovies, setRecommendedMovies] = useState([]);
     const[movies, setMovies] = useState([]);
@@ -10,23 +11,29 @@ const MovieRecommendation = () =>{
         .then((response) => response.json())
         .then((data) => setMovies(data))
         .catch((error) => console.error("Error fetching movies:", error));
-    }, []);
+
+        const savedLikes = localStorage.getItem(`liked_${username}`);
+        if (savedLikes){
+            setLikedMovies(JSON.parse(savedLikes));
+        }
+    }, [username]);
 
     const handleLikeMovie = (movie) =>{
-        const updatedLikedMovies =[...setLikedMovies, movie];
-        setLikedMovies(updatedLikedMovies);
+        if(!likeMovies.some(m => m.id === movie.id)){
+            const updatedLikedMovies =[...likedMovies, movie];
+            setLikedMovies(updatedLikedMovies);
+            localStorage.setItem(`liked_${username}`, JSON.stringify(updatedLikedMovies));
 
-        const recommendations = movie.filter(
-            (m) =>
-                m.id !== movie.id &&
-            (m.genre === movie.genre || m.director === movie.director)
-        );
-        setRecommendedMovies(recommendations);
+            const recommendations = movies.filter(
+                (m) => m.id !== movie.id && (m.genre === movie.genre || m.director === movie.director)
+            );
+            setRecommendedMovies(recommendations);
+        }
     };
 
     return (
         <div>
-            <h2>Movie List</h2>
+            <h2>Welcome, {username}Movie List</h2>
             {movies.length > 0 ? (
                 movies.map((movie) => (
                     <div key={movie.id}>
@@ -49,3 +56,5 @@ const MovieRecommendation = () =>{
         </div>
     );
 };
+
+export default MovieRecommendation;
