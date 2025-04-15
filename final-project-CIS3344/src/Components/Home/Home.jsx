@@ -61,6 +61,7 @@ const Home = () => {
 
         <div className={styles.movieList}>
           {filteredMovies.map((movie) => (
+            console.log(movie),
             <div
               key={movie.id}
               className={styles.movieCard}

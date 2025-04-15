@@ -9,6 +9,30 @@ const MovieDetailView = () => {
 
     const movie = state?.movie;
 
+    const genreMap = {
+        28: 'Action',
+        12: 'Adventure',
+        16: 'Animation',
+        35: 'Comedy',
+        80: 'Crime',
+        99: 'Documentary',
+        18: 'Drama',
+        10751: 'Family',
+        14: 'Fantasy',
+        36: 'History',
+        27: 'Horror',
+        10402: 'Music',
+        9648: 'Mystery',
+        10749: 'Romance',
+        878: 'Science Fiction',
+        10770: 'TV Movie',
+        53: 'Thriller',
+        10752: 'War',
+        37: 'Western'
+    };
+    
+    const getGenres = (ids) => ids.map(id => genreMap[id]).join(', ');
+    
     if (!movie) {
         return (
             <div className={styles.container}>
@@ -38,9 +62,9 @@ const MovieDetailView = () => {
                         />
                         <h1 className={styles.title}>{movie.title}</h1>
                     </div>
-                    <div className={styles.details}>
-                        <p><strong>Genre:</strong> {movie.genre_ids}</p>
-                        <p><strong>Rating:</strong> {movie.popularity}</p>
+                        <div className={styles.details}>
+                        <p><strong>Genre:</strong> {getGenres(movie.genre_ids)}</p>
+                        <p><strong>Rating:</strong> {movie.vote_average.toFixed(1)} / 10</p>
                         <p><strong>Overview:</strong> {movie.overview}</p>
 
                         <h3>User Reviews:</h3>
