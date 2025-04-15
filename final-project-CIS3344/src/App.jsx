@@ -4,7 +4,6 @@ import './App.css';
 import Profile from './Components/Profile/Profile';
 import Home from './Components/Home/Home';
 import Login from './Components/Login/Login';
-import MovieDetailView from './Components/DetailView/MovieDetailView';
 import SignupPage from './Components/Signup';
 import users from './data/users.json';
 import movies from './data/movies.json';
@@ -20,7 +19,6 @@ function App() {
         <Route path="/profile" element={<Profile user={currentUser} movies={movies} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/movie/:id" element={<MovieDetailView />} />
       </Routes>
     </Router>
   );

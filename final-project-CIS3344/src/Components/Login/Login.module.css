@@ -1,11 +1,11 @@
-
+/* 
 .loginPage {
   background-color: #0f0f0f;
   color: #e5e7eb;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-}
+} */
 
 .loginContainer {
   flex: 1;

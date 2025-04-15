@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from './Login.module.css';
 import Navbar from "../Navbar/navBar";
 import { Link, useNavigate } from "react-router-dom";
+import MovieRecommendation from "../Recommendation";
 
 const Login = () => {
     const [username, setUserName] = useState("");
@@ -35,7 +36,7 @@ const Login = () => {
         setError("");
         alert(`Welcome ${username}`);
         localStorage.setItem("username", username);
-        navigate("/recommendations");
+        navigate("/Recommendation");
     };
 
     return (
