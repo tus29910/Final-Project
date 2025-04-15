@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Navbar from '../Navbar/navBar';
 import styles from './MovieDetailView.module.css';
@@ -6,6 +6,9 @@ import styles from './MovieDetailView.module.css';
 const MovieDetailView = () => {
     const { state } = useLocation();
     const navigate = useNavigate();
+
+    const [reviewText, setReviewText] = useState('');
+    const [starRating, setStarRating] = useState(0);
 
     const movie = state?.movie;
 
@@ -47,7 +50,58 @@ const MovieDetailView = () => {
         );
     }
 
-    console.log(movie);
+    const handleReviewSubmit = (e) => {
+        e.preventDefault();
+        console.log('User review:', reviewText);
+        console.log('User rating:', starRating);
+        setReviewText('');
+        setStarRating(0);
+    };
+
+    const StarRatingDisplay = ({ rating }) => {
+        const fullStars = Math.floor(rating / 2);
+        const halfStar = rating % 2 >= 1;
+        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
+        return (
+            <div className={styles.starRatingDisplay}>
+                {Array(fullStars).fill('★').map((s, i) => <span key={`full-${i}`} className={styles.star}>★</span>)}
+                {halfStar && <span className={styles.star}>☆</span>}
+                {Array(emptyStars).fill('☆').map((s, i) => <span key={`empty-${i}`} className={styles.star}>☆</span>)}
+                <span className={styles.ratingText}>({rating.toFixed(1)} / 10)</span>
+            </div>
+        );
+    };
+
+    const StarSelector = ({ selectedRating, onChange }) => {
+        return (
+            <div className={styles.starSelector}>
+                {[1, 2, 3, 4, 5].map((star) => (
+                    <span
+                        key={star}
+                        className={`${styles.star} ${selectedRating >= star ? styles.active : ''}`}
+                        onClick={() => onChange(star)}
+                    >
+                        ★
+                    </span>
+                ))}
+            </div>
+        );
+    };
+
+    if (!movie) {
+        return (
+            <div className={styles.container}>
+                <Navbar />
+                <div className={styles.wrapper}>
+                    <h2>Movie not found!</h2>
+                    <button onClick={() => navigate(-1)} className={styles.button}>
+                        Go Back
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className={styles.container}>
@@ -83,17 +137,20 @@ const MovieDetailView = () => {
                             Watch on YouTube
                         </a>
                     </div>
-                </div>
-                <div className={styles.reviewForm}>
+                    <div className={styles.reviewForm}>
                     <h3>Leave a Review</h3>
-                    <form className={styles.form}>
+                    <form className={styles.form} onSubmit={handleReviewSubmit}>
+                        <StarSelector selectedRating={starRating} onChange={setStarRating} />
                         <textarea
                             placeholder="Write your review here..."
                             className={styles.textarea}
                             rows="6"
+                            value={reviewText}
+                            onChange={(e) => setReviewText(e.target.value)}
                         ></textarea>
                         <button type="submit" className={styles.button}>Submit Review</button>
                     </form>
+                    </div>
                 </div>
             </div>
         </div>
