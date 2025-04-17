@@ -11,9 +11,17 @@ const Home = () => {
   const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState('');
   const [filteredMovies, setFilteredMovies] = useState([]);
+
   const navigate = useNavigate();
 
+  const [username, setUsername] = useState('');
+
   useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+    if(storedUsername){
+      setUsername(storedUsername);
+    }
+    
     const fetchMovies = async () => {
       try {
         const response = await fetch(API_URL);
@@ -43,7 +51,7 @@ const Home = () => {
     <div className={styles.home}>
       <Navbar />
       <main className={styles.content}>
-        <h2>Welcome to the Movie App</h2>
+        <h1>Welcome, {username}!</h1>
         <p>Explore and review your favorite movies!</p>
 
         <form onSubmit={handleSearch} className={styles.searchInput}>

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import Login from "./Login/Login";
 
+
 const MovieRecommendation = () =>{
     const username = localStorage.getItem("username");
     const[likeMovies, setLikedMovies] = useState([]);
@@ -30,6 +31,15 @@ const MovieRecommendation = () =>{
             );
             setRecommendedMovies(recommendations);
         }
+        const updatedLikedMovies =[...likeMovies, movie];
+        setLikedMovies(updatedLikedMovies);
+
+        const recommendations = movies.filter(
+            (m) =>
+                m.id !== movie.id &&
+            (m.genre === movie.genre || m.director === movie.director)
+        );
+        setRecommendedMovies(recommendations);
     };
 
     return (

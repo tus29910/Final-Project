@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import styles from './Login.module.css';
 import Navbar from "../Navbar/navBar";
 import { Link, useNavigate } from "react-router-dom";
+
 import MovieRecommendation from "../Recommendation";
+
+
+
 
 const Login = () => {
     const [username, setUserName] = useState("");
@@ -19,7 +23,9 @@ const Login = () => {
     const navigate = useNavigate();
 
     const handleLogin = () => {
-        const savedEmail = localStorage.getItem("email");
+
+        const savedUsername = localStorage.getItem("username");
+
         const savedPassword = localStorage.getItem("password");
 
         if (!username || !password){
@@ -27,7 +33,8 @@ const Login = () => {
             return;
         }
 
-        if(username !== savedEmail || password !== savedPassword)
+        if(username !== savedUsername || password !== savedPassword)
+
         {
             setError("Invalid Login");
             return;
@@ -36,7 +43,8 @@ const Login = () => {
         setError("");
         alert(`Welcome ${username}`);
         localStorage.setItem("username", username);
-        navigate("/Recommendation");
+
+        navigate("/home");
     };
 
     return (
