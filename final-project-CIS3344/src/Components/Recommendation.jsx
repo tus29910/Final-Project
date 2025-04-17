@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 
 const MovieRecommendation = () =>{
     const[likeMovies, setLikedMovies] = useState([]);
@@ -13,10 +13,10 @@ const MovieRecommendation = () =>{
     }, []);
 
     const handleLikeMovie = (movie) =>{
-        const updatedLikedMovies =[...setLikedMovies, movie];
+        const updatedLikedMovies =[...likeMovies, movie];
         setLikedMovies(updatedLikedMovies);
 
-        const recommendations = movie.filter(
+        const recommendations = movies.filter(
             (m) =>
                 m.id !== movie.id &&
             (m.genre === movie.genre || m.director === movie.director)
@@ -49,3 +49,5 @@ const MovieRecommendation = () =>{
         </div>
     );
 };
+
+export default MovieRecommendation;
