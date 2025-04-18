@@ -7,7 +7,7 @@ const Navbar = () => {
       <h1>Movie App</h1>
       <nav>
         <ul>
-          <li><Link to="/">Home</Link></li>
+          <li><Link to="/home">Home</Link></li>
           <li><Link to="/profile">Profile</Link></li>
           <li><Link to="/login">Login</Link></li>
         </ul>

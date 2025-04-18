@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.css';
-import Navbar from '../Navbar/navBar';
+import Navbar from "../Navbar/Navbar";
 import Footer from '../Footer/footer'
 const apiKey = import.meta.env.VITE_API_KEY;
 const API_URL =`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`;
