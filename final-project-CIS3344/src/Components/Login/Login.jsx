@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from './Login.module.css';
-import Navbar from "../Navbar/navBar";
+import Navbar from "../Navbar/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 
 import MovieRecommendation from "../Recommendation";

@@ -1,11 +1,23 @@
 import React from 'react';
 import styles from './Profile.module.css';
-import Navbar from '../Navbar/navBar';
+import Navbar from "../Navbar/Navbar";
 
 const Profile = ({ user, movies }) => {
 
     console.log(user);
     console.log(movies);
+
+    if (!user) {
+        return (
+            <div className={styles.profile}>
+                <Navbar />
+                <div className={styles.profileContent}>
+                    <h2>User not found or not logged in.</h2>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className={styles.profile}>
             <Navbar />

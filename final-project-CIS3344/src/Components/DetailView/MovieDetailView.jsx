@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Navbar from '../Navbar/navBar';
+import Navbar from "../Navbar/Navbar";
 import styles from './MovieDetailView.module.css';
 
 const MovieDetailView = () => {
