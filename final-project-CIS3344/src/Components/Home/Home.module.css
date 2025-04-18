@@ -122,13 +122,33 @@ nav ul li a:hover {
     line-height: 1.4;
 }
 
-.searchInput {
-    flex-grow: 1;
-    padding: 10px 16px;
+.searchContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+    margin: 0 auto;
+    align-items: center;
+  }
+  
+  .searchInput {
+    padding: 10px 25px;
     border-radius: 6px;
-    border: 1px solid #ccc;
+    border: 1px solid #e7a500;
     font-size: 16px;
   }
   
+  .searchButton {
+    padding: 10px;
+    background-color: #e7a500;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+  }
   
-
+  .searchButton:hover {
+    background-color: #cc9400;
+  }
+  

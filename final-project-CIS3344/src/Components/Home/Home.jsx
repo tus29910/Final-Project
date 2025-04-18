@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.css';
 import Navbar from '../Navbar/navBar';
-
+import Footer from '../Footer/footer'
 const apiKey = import.meta.env.VITE_API_KEY;
 const API_URL =`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`;
 
@@ -54,7 +54,7 @@ const Home = () => {
         <h1>Welcome, {username}!</h1>
         <p>Explore and review your favorite movies!</p>
 
-        <form onSubmit={handleSearch} className={styles.searchInput}>
+        <div className={styles.searchContainer}>
           <input
             type="text"
             value={query}
@@ -62,13 +62,18 @@ const Home = () => {
             placeholder="Search movies..."
             className={styles.searchInput}
           />
-          <button type="submit" className={styles.searchButton}>Search</button>
-        </form>
+          <button onClick={handleSearch} className={styles.searchButton}>
+            Search
+          </button>
+        </div>
+
+        
 
         <h2>{query ? `Results for "${query}"` : "Popular Movies:"}</h2>
 
         <div className={styles.movieList}>
           {filteredMovies.map((movie) => (
+            console.log(movie),
             <div
               key={movie.id}
               className={styles.movieCard}
@@ -86,10 +91,7 @@ const Home = () => {
           ))}
         </div>
       </main>
-
-      <footer className={styles.footer}>
-        <p>Temple CIS 3344 Movie App. All rights reserved.</p>
-      </footer>
+      <Footer />
     </div>
   );
 };
