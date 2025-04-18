@@ -5,13 +5,17 @@ import Profile from './Components/Profile/Profile';
 import Home from './Components/Home/Home';
 import Login from './Components/Login/Login';
 import SignupPage from './Components/Signup';
-import users from './data/users.json';
 import MovieDetailView from './Components/DetailView/MovieDetailView';
 import movies from './data/movies.json';
 
 function App() {
-  const currentUser = users[0];
-  // const currentUserId = currentUser.id;
+  const currentUser = {
+    username: localStorage.getItem("username"),
+    email: localStorage.getItem("email"),
+    profile_picture: null,
+    bio: "This is your profile.",
+    rated_movies: []
+  };
   
   return (
     <Router>
