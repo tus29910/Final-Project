@@ -5,9 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 import MovieRecommendation from "../Recommendation";
 
-
-
-
 const Login = () => {
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
