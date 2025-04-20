@@ -2,8 +2,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #222;
-    color: white;
+    background-color: #0b2029;
+    color: #ffb703;
     padding: 10px 20px;
   }
   
@@ -22,7 +22,7 @@
   }
   
   nav ul li a {
-    color: white;
+    color: #ffb703;
     text-decoration: none;
     font-weight: bold;
   }
@@ -33,7 +33,7 @@
   }
 
   .signOutButton {
-    background-color: #ff4747;  /* Red background */
+    background-color: #ec6868;  /* Red background */
     color: white;               /* White text color */
     font-size: 16px;            /* Font size */
     padding: 10px 20px;         /* Padding around the text */
@@ -42,6 +42,10 @@
     cursor: pointer;            /* Change cursor to pointer on hover */
     transition: background-color 0.3s ease; /* Smooth background color transition */
     display: inline;
+  }
+
+  .signOutButton:hover {
+    background-color: #c62f2f;  /* Darker red background on hover */
   }
 
   

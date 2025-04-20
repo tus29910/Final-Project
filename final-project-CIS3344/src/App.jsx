@@ -7,6 +7,7 @@ import Login from './Components/Login/Login';
 import SignupPage from './Components/Signup';
 import MovieDetailView from './Components/DetailView/MovieDetailView';
 import movies from './data/movies.json';
+import About from './Components/About/About';
 
 function App() {
   const currentUser = {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/" element={<Home />} />
         <Route path="/movie/:id" element={<MovieDetailView />} />
+        <Route path="/about" element={<About />} />
       </Routes>
     </Router>
   );
