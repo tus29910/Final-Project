@@ -6,7 +6,6 @@ import Home from './Components/Home/Home';
 import Login from './Components/Login/Login';
 import SignupPage from './Components/Signup/Signup';
 import MovieDetailView from './Components/DetailView/MovieDetailView';
-import movies from './data/movies.json';
 import About from './Components/About/About';
 
 function App() {
