@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styles from './Login.module.css';
 import Navbar from "../Navbar/Navbar";
-import { Link, useNavigate } from "react-router-dom";
-
-import MovieRecommendation from "../Recommendation";
 
 const Login = () => {
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const savedUsername = localStorage.getItem("username");
@@ -17,30 +17,24 @@ const Login = () => {
         }
     }, []);
 
-    const navigate = useNavigate();
-
     const handleLogin = () => {
-
-        const savedUsername = localStorage.getItem("username");
-
-        const savedPassword = localStorage.getItem("password");
+        const savedUserDetails = JSON.parse(localStorage.getItem("userDetails"));
+        const savedUsername = savedUserDetails?.username;
+        const savedPassword = savedUserDetails?.password;
 
         if (!username || !password){
             setError("Username and password are required");
             return;
         }
 
-        if(username !== savedUsername || password !== savedPassword)
-
-        {
+        if(username !== savedUsername || password !== savedPassword) {
             setError("Invalid Login");
             return;
         }
 
         setError("");
         alert(`Welcome ${username}`);
-        localStorage.setItem("username", username);
-
+        localStorage.setItem("username", username);  // Save username for the session
         navigate("/home");
     };
 
