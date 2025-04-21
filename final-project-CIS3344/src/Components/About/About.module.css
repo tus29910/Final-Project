@@ -1,42 +1,49 @@
-.aboutContainer {
+.aboutPage {
+    display: flex;
+    flex-direction: column;
     min-height: 100vh;
-    padding-top: 80px;
-    background: #1e1e1e;
+    background: #023047; 
+    font-family: Arial, sans-serif;
+    color: #8ecae6;
+  }
+  
+  .aboutContainer {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #2c3e50;
-}
-
-.aboutContainer h1 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-    color: #f39c12;
+    padding: 6rem 2rem 2rem; 
+    box-sizing: border-box;
     text-align: center;
-}
-
-.aboutContainer p {
+  }
+  
+  .aboutContainer h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #ffb703;
+  }
+  
+  .aboutContainer p {
     font-size: 1.2rem;
     line-height: 1.8;
     max-width: 800px;
-    color: white;
-    margin: 10px 20px;
-    text-align: center;
-}
-
-@keyframes fadeIn {
+    color: #8ecae6;
+    margin: 0.75rem 0;
+  }
+  
+  @keyframes fadeIn {
     from {
-        opacity: 0;
-        transform: translateY(20px);
+      opacity: 0;
+      transform: translateY(20px);
     }
     to {
-        opacity: 1;
-        transform: translateY(0);
+      opacity: 1;
+      transform: translateY(0);
     }
-}
-
-.aboutContainer > * {
+  }
+  
+  .aboutContainer > * {
     animation: fadeIn 0.5s ease-in-out;
-}
+  }
+  
