@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from "react";
-import Login from "./Login/Login";
 
 
 const MovieRecommendation = () =>{
@@ -22,7 +21,7 @@ const MovieRecommendation = () =>{
 
     const handleLikeMovie = (movie) =>{
         if(!likeMovies.some(m => m.id === movie.id)){
-            const updatedLikedMovies =[...likedMovies, movie];
+            // const updatedLikedMovies =[...likedMovies, movie];
             setLikedMovies(updatedLikedMovies);
             localStorage.setItem(`liked_${username}`, JSON.stringify(updatedLikedMovies));
 

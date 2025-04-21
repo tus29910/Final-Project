@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from './Signup.module.css';
-import Navbar from "./Navbar/Navbar";
+import Navbar from "../Navbar/Navbar";
 
 const SignupPage = () => {
     const [firstName, setFirstName] = useState("");

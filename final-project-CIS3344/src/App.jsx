@@ -4,7 +4,7 @@ import './App.css';
 import Profile from './Components/Profile/Profile';
 import Home from './Components/Home/Home';
 import Login from './Components/Login/Login';
-import SignupPage from './Components/Signup';
+import SignupPage from './Components/Signup/Signup';
 import MovieDetailView from './Components/DetailView/MovieDetailView';
 import movies from './data/movies.json';
 import About from './Components/About/About';
