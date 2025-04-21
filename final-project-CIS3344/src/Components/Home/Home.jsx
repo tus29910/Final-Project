@@ -7,15 +7,35 @@ import Footer from '../Footer/footer';
 const apiKey = import.meta.env.VITE_API_KEY;
 const API_URL = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`;
 
+const genreMap = {
+  28: 'Action',
+  12: 'Adventure',
+  16: 'Animation',
+  35: 'Comedy',
+  80: 'Crime',
+  99: 'Documentary',
+  18: 'Drama',
+  10751: 'Family',
+  14: 'Fantasy',
+  36: 'History',
+  27: 'Horror',
+  10402: 'Music',
+  9648: 'Mystery',
+  10749: 'Romance',
+  878: 'Science Fiction',
+  10770: 'TV Movie',
+  53: 'Thriller',
+  10752: 'War',
+  37: 'Western'
+};
+
 const Home = () => {
   const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState('');
   const [filteredMovies, setFilteredMovies] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [reviews, setReviews] = useState({});
-  const navigate = useNavigate();
-
   const [username, setUsername] = useState('');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
@@ -23,52 +43,35 @@ const Home = () => {
       setUsername(storedUsername);
     }
 
-    // Fetch movies
     const fetchMovies = async () => {
       try {
         const response = await fetch(API_URL);
         const data = await response.json();
         setMovies(data.results);
         setFilteredMovies(data.results);
-        setLoading(false); // Set loading to false when movies are fetched
       } catch (error) {
         console.error("Error fetching movies:", error);
-        setLoading(false);
       }
     };
 
-    // Fetch user reviews from localStorage
-    const savedReviews = JSON.parse(localStorage.getItem("reviews")) || {};
-    setReviews(savedReviews);
-
-    // Fetch movies when the component mounts
     fetchMovies();
   }, []);
 
-  // Handle search
   const handleSearch = (e) => {
     e.preventDefault();
-    const matched = movies.filter((movie) =>
-      movie.title.toLowerCase().includes(query.toLowerCase())
-    );
+    const q = query.toLowerCase();
+    const matched = movies.filter((movie) => {
+      const titleMatch = movie.title.toLowerCase().includes(q);
+      const genreMatch = movie.genre_ids.some(
+        (id) => genreMap[id]?.toLowerCase().includes(q)
+      );
+      return titleMatch || genreMatch;
+    });
     setFilteredMovies(matched);
-    // Save search query to localStorage
-    localStorage.setItem("searchQuery", query);
   };
 
-  // Handle movie click
   const handleMovieClick = (movie) => {
     navigate(`/movie/${movie.id}`, { state: { movie } });
-  };
-
-  // Handle query input change
-  const handleQueryChange = (e) => {
-    setQuery(e.target.value);
-  };
-
-  // Check if the user has reviewed this movie
-  const getUserReview = (movieId) => {
-    return reviews[movieId] ? reviews[movieId].review : "No review yet";
   };
 
   return (
@@ -79,22 +82,42 @@ const Home = () => {
         <p>Explore and review your favorite movies!</p>
 
         <div className={styles.searchContainer}>
-          <input
-            type="text"
-            value={query}
-            onChange={handleQueryChange}
-            placeholder="Search movies..."
-            className={styles.searchInput}
-          />
-          <button onClick={handleSearch} className={styles.searchButton}>
-            Search
-          </button>
+          <form onSubmit={handleSearch} className={styles.searchForm}>
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => {
+                const value = e.target.value;
+                setQuery(value);
+                if (value === '') {
+                  setFilteredMovies(movies);
+                }
+              }}
+              placeholder="Search by title or genre..."
+              className={styles.searchInput}
+            />
+            <div className={styles.buttonGroup}>
+              <button type="submit" className={styles.searchButton}>Search</button>
+              <button
+                type="button"
+                onClick={() => {
+                  setQuery('');
+                  setFilteredMovies(movies);
+                }}
+                className={styles.resetButton}
+              >
+                Reset
+              </button>
+            </div>
+          </form>
         </div>
 
-        <h2>{query ? `Results for "${query}"` : "Popular Movies:"}</h2>
+        <h2 className={styles.sectionHeader}>
+          {query ? `Results for: ${query}` : "Popular Movies"}
+        </h2>
 
-        {loading ? (
-          <p>Loading movies...</p> // Show loading text while fetching
+        {filteredMovies.length === 0 ? (
+          <p>No movies found for "{query}"</p>
         ) : (
           <div className={styles.movieList}>
             {filteredMovies.map((movie) => (
@@ -111,7 +134,6 @@ const Home = () => {
                 />
                 <h3>{movie.title}</h3>
                 <p>{movie.overview}</p>
-                <p><strong>Your Review:</strong> {getUserReview(movie.id)}</p>
               </div>
             ))}
           </div>
