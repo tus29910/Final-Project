@@ -30,6 +30,15 @@ const Review = ({ onSubmit }) => {
         setStarRating(0);
     };
 
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    if (!currentUser) {
+    return (
+        <div className={styles.reviewForm}>
+        <p>Please log in to leave a review.</p>
+        </div>
+    );
+    }
+
     return (
         <div className={styles.reviewForm}>
             <h3>Leave a Review</h3>

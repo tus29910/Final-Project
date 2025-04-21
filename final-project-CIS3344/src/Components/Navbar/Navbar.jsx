@@ -3,19 +3,19 @@ import styles from "./Navbar.module.css";
 import React, { useEffect, useState } from "react";
 
 const Navbar = () => {
-  const [username, setUsername] = useState('');
+  const [currentUser, setCurrentUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUsername = localStorage.getItem("username");
-    if (storedUsername) {
-      setUsername(storedUsername);
+    const storedUser = JSON.parse(localStorage.getItem("currentUser"));
+    if (storedUser) {
+      setCurrentUser(storedUser);
     }
   }, []);
 
   const handleSignOut = () => {
-    localStorage.removeItem("username");
-    setUsername('');
+    localStorage.removeItem("currentUser");
+    setCurrentUser(null);
     navigate("/login");
   };
 
@@ -26,15 +26,14 @@ const Navbar = () => {
         <ul>
           <li><Link to="/home">Home</Link></li>
           <li><Link to="/profile">Profile</Link></li>
-          <li><Link to="/login">Login</Link></li>
+          {!currentUser && <li><Link to="/login">Login</Link></li>}
           <li><Link to="/about">About</Link></li>
-
         </ul>
 
-        {username && (
-          <>
-            <button onClick={handleSignOut} className={styles.signOutButton}>Sign Out</button>
-          </>
+        {currentUser && (
+          <button onClick={handleSignOut} className={styles.signOutButton}>
+            Sign Out
+          </button>
         )}
       </nav>
     </header>

@@ -18,29 +18,28 @@ const Login = () => {
     const navigate = useNavigate();
 
     const handleLogin = () => {
-
-        const savedUsername = localStorage.getItem("username");
-
-        const savedPassword = localStorage.getItem("password");
-
-        if (!username || !password){
-            setError("Username and password are required");
-            return;
+        if (!username || !password) {
+          setError("Username and password are required");
+          return;
         }
-
-        if(username !== savedUsername || password !== savedPassword)
-
-        {
-            setError("Invalid Login");
-            return;
+      
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+      
+        const matchingUser = users.find(
+          (user) => user.username === username && user.password === password
+        );
+      
+        if (!matchingUser) {
+          setError("Invalid Login");
+          return;
         }
-
+      
+        localStorage.setItem("currentUser", JSON.stringify(matchingUser));
         setError("");
         alert(`Welcome ${username}`);
-        localStorage.setItem("username", username);
-
         navigate("/home");
-    };
+      };
+      
 
     return (
         <div className={styles.loginPage}>

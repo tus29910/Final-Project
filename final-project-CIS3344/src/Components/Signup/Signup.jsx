@@ -18,18 +18,39 @@ const SignupPage = () => {
 
     const signupForm = () => {
         if (!password || password !== newPassword) {
-            setError("Password is required and should match");
-            return;
+          setError("Password is required and should match");
+          return;
         }
-
-        // Save user info (mocked for now)
-        localStorage.setItem("email", email);
-        localStorage.setItem("password", password);
-        localStorage.setItem("username", username);
+      
+        // Get all users
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+      
+        // Check if username is taken
+        const existingUser = users.find((user) => user.username === username);
+        if (existingUser) {
+          setError("Username already exists.");
+          return;
+        }
+      
+        // Create new user
+        const newUser = {
+          firstName,
+          lastName,
+          email,
+          username,
+          password,
+          birth,
+          phoneNum
+        };
+      
+        users.push(newUser);
+        localStorage.setItem("users", JSON.stringify(users));
+        localStorage.setItem("currentUser", JSON.stringify(newUser)); // to persist login
         setError("");
         alert("Account created successfully!");
         navigate("/home");
-    };
+      };
+      
 
     return (
         <div className={styles.signupPage}>

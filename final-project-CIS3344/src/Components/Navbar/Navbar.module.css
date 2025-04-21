@@ -47,17 +47,20 @@ nav ul li a:hover {
 }
 
 .signOutButton {
-  background-color: #ec6868;
-  color: white;
+  background-color: #ffb703;
+  color: #023047;
   font-size: 1rem;
   padding: 10px 16px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-weight: bold;
   white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .signOutButton:hover {
-  background-color: #c62f2f;
+  background-color: #fb8500;
+  color: white;
 }

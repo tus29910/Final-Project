@@ -38,11 +38,11 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUsername = localStorage.getItem("username");
-    if (storedUsername) {
-      setUsername(storedUsername);
+    const storedUser = JSON.parse(localStorage.getItem("currentUser"));
+    if (storedUser) {
+      setUsername(storedUser.username);
     }
-
+  
     const fetchMovies = async () => {
       try {
         const response = await fetch(API_URL);
@@ -53,9 +53,10 @@ const Home = () => {
         console.error("Error fetching movies:", error);
       }
     };
-
+  
     fetchMovies();
   }, []);
+  
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -78,7 +79,7 @@ const Home = () => {
     <div className={styles.home}>
       <Navbar />
       <main className={styles.content}>
-        <h1>Welcome, {username}!</h1>
+        <h1>Welcome {username}</h1>
         <p>Explore and review your favorite movies!</p>
 
         <div className={styles.searchContainer}>
