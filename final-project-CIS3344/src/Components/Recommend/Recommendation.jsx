@@ -1,67 +1,69 @@
-import React, {useState, useEffect} from "react";
+import React, { useEffect, useState } from "react";
 
 
-const MovieRecommendation = () =>{
+const MovieRecommendation = ({ movies }) => {
     const username = localStorage.getItem("username");
-    const[likeMovies, setLikedMovies] = useState([]);
-    const[recommendedMovies, setRecommendedMovies] = useState([]);
-    const[movies, setMovies] = useState([]);
+    const [reviews, setReviews] = useState([]);
+    const [reviewText, setReviewText] = useState({});
+    const [recommendations, setRecommendations] = useState([]);
+
 
     useEffect(() => {
-        fetch("https://api.example.com/movies")
-        .then((response) => response.json())
-        .then((data) => setMovies(data))
-        .catch((error) => console.error("Error fetching movies:", error));
-
-        const savedLikes = localStorage.getItem(`liked_${username}`);
-        if (savedLikes){
-            setLikedMovies(JSON.parse(savedLikes));
-        }
+        const savedReviews = JSON.parse(localStorage.getItem(`reviews_${username}`)) || [];
+        setReviews(savedReviews);
     }, [username]);
 
-    const handleLikeMovie = (movie) =>{
-        if(!likeMovies.some(m => m.id === movie.id)){
-            // const updatedLikedMovies =[...likedMovies, movie];
-            setLikedMovies(updatedLikedMovies);
-            localStorage.setItem(`liked_${username}`, JSON.stringify(updatedLikedMovies));
 
-            const recommendations = movies.filter(
-                (m) => m.id !== movie.id && (m.genre === movie.genre || m.director === movie.director)
-            );
-            setRecommendedMovies(recommendations);
-        }
-        const updatedLikedMovies =[...likeMovies, movie];
-        setLikedMovies(updatedLikedMovies);
+    const handleReviewSubmit = (movie) => {
+        const newReview = {
+            movieId: movie.id,
+            title: movie.title,
+            genre: movie.genre,
+            text: reviewText[movie.id]
+        };
 
-        const recommendations = movies.filter(
-            (m) =>
-                m.id !== movie.id &&
-            (m.genre === movie.genre || m.director === movie.director)
+
+        const updatedReviews = [...reviews, newReview];
+        setReviews(updatedReviews);
+        localStorage.setItem(`reviews_${username}`, JSON.stringify(updatedReviews));
+
+
+        setReviewText({ ...reviewText, [movie.id]: "" });
+
+
+        // Recommend more movies with the same genre
+        const similarMovies = movies.filter(
+            (m) => m.genre === movie.genre && m.id !== movie.id
         );
-        setRecommendedMovies(recommendations);
+        setRecommendations(similarMovies);
     };
+
 
     return (
         <div>
-            <h2>Welcome, {username}Movie List</h2>
-            {movies.length > 0 ? (
-                movies.map((movie) => (
-                    <div key={movie.id}>
-                        <p>{movie.title} ({movie.genre})</p>
-                        <button onClick={() => handleLikeMovie(movie)}>Like</button>
-                    </div>
-                ))
-            ) : (
-                <p>Loading movies...</p>
-            )}
+            <h2>Review & Get Movie Recommendations</h2>
+            {movies.map((movie) => (
+                <div key={movie.id} style={{ marginBottom: "20px" }}>
+                    <h4>{movie.title} ({movie.genre})</h4>
+                    <textarea
+                        placeholder="Write a review..."
+                        value={reviewText[movie.id] || ""}
+                        onChange={(e) => setReviewText({ ...reviewText, [movie.id]: e.target.value })}
+                    />
+                    <button onClick={() => handleReviewSubmit(movie)}>Submit Review</button>
+                </div>
+            ))}
 
-            <h2>Recommended Movies</h2>
-            {recommendedMovies.length > 0 ? (
-                recommendedMovies.map((movie) => (
-                    <p key={movie.id}>{movie.title} ({movie.genre})</p>
-                ))
-            ) : (
-                <p>No recommendations yet. Like a movie to get suggestions!</p>
+
+            {recommendations.length > 0 && (
+                <div>
+                    <h3>Recommended Movies Based on Your Review</h3>
+                    <ul>
+                        {recommendations.map((movie) => (
+                            <li key={movie.id}>{movie.title} ({movie.genre})</li>
+                        ))}
+                    </ul>
+                </div>
             )}
         </div>
     );
