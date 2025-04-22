@@ -10,6 +10,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState("");
   const [reviewsMap, setReviewsMap] = useState({});
+  const [recommendations, setRecommendations] = useState([]);
   const [query, setQuery] = useState("");
   const backendURL = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
@@ -33,7 +34,6 @@ const Home = () => {
         setMovies(data.results);
         setFilteredMovies(data.results);
       } catch {
-        setFilteredMovies([]);
       } finally {
         setLoading(false);
       }
@@ -41,7 +41,23 @@ const Home = () => {
     fetchMovies();
   }, [backendURL]);
 
-  const handleSearch = async (e) => {
+  useEffect(() => {
+    const reviewedIds = Object.keys(reviewsMap).map(id => Number(id));
+    const genreSet = new Set();
+    reviewedIds.forEach(id => {
+      const movie = movies.find(m => m.id === id);
+      if (movie?.genre_ids) {
+        movie.genre_ids.forEach(g => genreSet.add(g));
+      }
+    });
+    const recs = movies.filter(m =>
+      !reviewedIds.includes(m.id) &&
+      m.genre_ids.some(g => genreSet.has(g))
+    );
+    setRecommendations(recs);
+  }, [reviewsMap, movies]);
+
+  const handleSearch = async e => {
     e.preventDefault();
     if (!query.trim()) {
       setFilteredMovies(movies);
@@ -66,7 +82,7 @@ const Home = () => {
     setFilteredMovies(movies);
   };
 
-  const renderReviewLine = (movieId) => {
+  const renderReviewLine = movieId => {
     if (!username) {
       return <em>Create an account to leave a review.</em>;
     }
@@ -74,7 +90,7 @@ const Home = () => {
     return <span><strong>Your Review:</strong> {text}</span>;
   };
 
-  const handleMovieClick = (movie) =>
+  const handleMovieClick = movie =>
     navigate(`/movie/${movie.id}`, { state: { movie } });
 
   return (
@@ -148,7 +164,7 @@ const Home = () => {
                           src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                           alt={movie.title}
                           className={styles.moviePoster}
-                          onClick={() => movie && handleMovieClick(movie)}
+                          onClick={() => handleMovieClick(movie)}
                         />
                       )}
                       <h3>{movie?.title || `Movie ${id}`}</h3>
@@ -164,6 +180,28 @@ const Home = () => {
             <p>Create an account to start leaving reviews.</p>
           )}
         </div>
+        {recommendations.length > 0 && (
+          <div className={styles.recommendationSection}>
+            <h2>Recommended For You</h2>
+            <div className={styles.movieList}>
+              {recommendations.map(movie => (
+                <div
+                  key={movie.id}
+                  className={styles.movieCard}
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => handleMovieClick(movie)}
+                >
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    alt={movie.title}
+                    className={styles.moviePoster}
+                  />
+                  <h3>{movie.title}</h3>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </main>
       <Footer />
     </div>
