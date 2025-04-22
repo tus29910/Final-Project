@@ -5,10 +5,6 @@ import Navbar from "../Navbar/Navbar";
 import Footer from '../Footer/footer';
 
 
-const apiKey = import.meta.env.VITE_API_KEY
-const API_URL = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`;
-
-
 const Home = () => {
   const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState('');
@@ -19,16 +15,14 @@ const Home = () => {
   const [reviewInputs, setReviewInputs] = useState({});
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
-
+  const backendURL = import.meta.env.VITE_BACKEND_URL
+  const endpoint = `${backendURL}/api/movies/popular`;
 
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
     if (storedUsername) {
       setUsername(storedUsername);
     }
-
-const backendURL = import.meta.env.VITE_BACKEND_URL
-const endpoint = `${backendURL}/api/movies/popular`;
 
     const fetchMovies = async () => {
       try {
