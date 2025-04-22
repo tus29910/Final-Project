@@ -15,11 +15,11 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUsername = localStorage.getItem("username");
-    if (storedUsername) {
-      setUsername(storedUsername);
+    const storedUser = JSON.parse(localStorage.getItem("currentUser"));
+    if (storedUser?.username) {
+      setUsername(storedUser.username);
       const allReviews = JSON.parse(localStorage.getItem("reviews")) || [];
-      const myReviews = allReviews.filter(r => r.username === storedUsername);
+      const myReviews = allReviews.filter(r => r.username === storedUser.username);
       const map = {};
       myReviews.forEach(r => {
         map[r.movieId] = r.reviewText;
@@ -33,7 +33,7 @@ const Home = () => {
         setMovies(data.results);
         setFilteredMovies(data.results);
       } catch (err) {
-        console.error("Error fetching movies:", err);
+        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -55,7 +55,7 @@ const Home = () => {
       const data = await res.json();
       setFilteredMovies(data.results || []);
     } catch (err) {
-      console.error("Search error:", err);
+      console.error(err);
     } finally {
       setLoading(false);
     }
