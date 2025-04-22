@@ -66,6 +66,18 @@ app.get("/api/movies/search", async (req, res) => {
   }
 });
 
+app.get('/api/movies/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const response = await fetch(`${baseUrl}/movie/${id}?api_key=${apiKey}`);
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch movie by ID" });
+  }
+});
+
+
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
 });
