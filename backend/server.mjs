@@ -41,6 +41,31 @@ app.get("/api/movies/popular", async (req, res) => {
   }
 });
 
+app.get("/api/movies/search", async (req, res) => {
+  const { query, page = 1 } = req.query;
+  if (!query) {
+    return res.status(400).json({ error: "Missing `query` parameter" });
+  }
+
+  const endpoint = `${baseUrl}/search/movie` +
+                   `?api_key=${apiKey}` +
+                   `&language=en-US` +
+                   `&query=${encodeURIComponent(query)}` +
+                   `&page=${page}`;
+
+  try {
+    const response = await fetch(endpoint);
+    if (!response.ok) {
+      throw new Error(`TMDb responded ${response.status}`);
+    }
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching search results:", error);
+    res.status(500).json({ error: "Failed to search movies" });
+  }
+});
+
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
 });

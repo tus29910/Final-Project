@@ -50,14 +50,26 @@ const endpoint = `${backendURL}/api/movies/popular`;
   }, []);
 
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const matched = movies.filter((movie) =>
-      movie.title.toLowerCase().includes(query.toLowerCase())
-    );
-    setFilteredMovies(matched);
-    localStorage.setItem("searchQuery", query);
-  };
+   const handleSearch = async (e) => {
+       e.preventDefault();
+       if (!query.trim()) {
+         setFilteredMovies(movies);
+         return;
+       }
+    
+       setLoading(true);
+       try {
+         const response = await fetch(
+           `${backendURL}/api/movies/search?query=${encodeURIComponent(query)}`
+         );
+         const data = await response.json();
+         setFilteredMovies(data.results || []);
+       } catch (err) {
+         console.error("Search error:", err);
+       } finally {
+         setLoading(false);
+       }
+    };
 
 
   const handleMovieClick = (movie) => {
