@@ -12,6 +12,8 @@ const Home = () => {
   const [reviewsMap, setReviewsMap] = useState({});
   const [recommendations, setRecommendations] = useState([]);
   const [query, setQuery] = useState("");
+  const [extraMovies, setExtraMovies] = useState({});
+
   const backendURL = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
 
@@ -27,6 +29,7 @@ const Home = () => {
       });
       setReviewsMap(map);
     }
+
     const fetchMovies = async () => {
       try {
         const res = await fetch(`${backendURL}/api/movies/popular`);
@@ -34,6 +37,7 @@ const Home = () => {
         setMovies(data.results);
         setFilteredMovies(data.results);
       } catch {
+        // handle error if needed
       } finally {
         setLoading(false);
       }
@@ -56,6 +60,18 @@ const Home = () => {
     );
     setRecommendations(recs);
   }, [reviewsMap, movies]);
+
+  const fetchMovieById = async (id) => {
+    try {
+      const res = await fetch(`${backendURL}/api/movies/${id}`);
+      const data = await res.json();
+      setExtraMovies(prev => ({ ...prev, [id]: data }));
+      return data;
+    } catch (err) {
+      console.error(`Failed to fetch movie ${id}`, err);
+      return null;
+    }
+  };
 
   const handleSearch = async e => {
     e.preventDefault();
@@ -99,6 +115,7 @@ const Home = () => {
       <main className={styles.content}>
         <h1>Welcome {username || "Guest"}</h1>
         <p>Explore and review your favorite movies!</p>
+
         <div className={styles.searchContainer}>
           <div className={styles.searchForm}>
             <input
@@ -126,6 +143,7 @@ const Home = () => {
             </div>
           </div>
         </div>
+
         <h2>{query ? `Results for "${query}"` : "Popular Movies:"}</h2>
         {loading ? (
           <p>Loading movies...</p>
@@ -150,13 +168,22 @@ const Home = () => {
             ))}
           </div>
         )}
+
         <div className={styles.pastReviewsSection}>
           <h2>Your Past Reviews</h2>
           {username ? (
             Object.keys(reviewsMap).length > 0 ? (
               <div className={styles.movieList}>
                 {Object.entries(reviewsMap).map(([id, text]) => {
-                  const movie = movies.find(m => m.id === Number(id));
+                  const movieId = Number(id);
+                  const movie = movies.find(m => m.id === movieId) || extraMovies[movieId];
+
+                  useEffect(() => {
+                    if (!movie && !extraMovies[movieId]) {
+                      fetchMovieById(movieId);
+                    }
+                  }, [movieId, movie]);
+
                   return (
                     <div key={id} className={styles.movieCard}>
                       {movie?.poster_path && (
@@ -180,6 +207,7 @@ const Home = () => {
             <p>Create an account to start leaving reviews.</p>
           )}
         </div>
+
         {recommendations.length > 0 && (
           <div className={styles.recommendationSection}>
             <h2>Recommended For You</h2>
