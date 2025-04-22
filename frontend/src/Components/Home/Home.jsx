@@ -5,7 +5,7 @@ import Navbar from "../Navbar/Navbar";
 import Footer from '../Footer/footer';
 
 
-const apiKey = import.meta.env.TMDB_API_KEY || process.env.TMDB_API_KEY;
+const apiKey = import.meta.env.VITE_API_KEY
 const API_URL = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`;
 
 
