@@ -37,7 +37,6 @@ const Home = () => {
         setMovies(data.results);
         setFilteredMovies(data.results);
       } catch {
-        // handle error if needed
       } finally {
         setLoading(false);
       }
@@ -64,13 +63,19 @@ const Home = () => {
   const fetchMovieById = async (id) => {
     try {
       const res = await fetch(`${backendURL}/api/movies/${id}`);
+      if (!res.ok) {
+        console.warn(`No movie ${id}:`, await res.json());
+        setExtraMovies(prev => ({ ...prev, [id]: null }));
+        return;
+      }
       const data = await res.json();
-      console.log("Fetched movie by ID:", id, data); // ✅ debug
       setExtraMovies(prev => ({ ...prev, [id]: data }));
     } catch (err) {
       console.error(`Failed to fetch movie ${id}`, err);
+      setExtraMovies(prev => ({ ...prev, [id]: null }));
     }
   };
+  
 
   useEffect(() => {
     const fetchMissingMovies = async () => {
@@ -189,33 +194,36 @@ const Home = () => {
               <div className={styles.movieList}>
                 {Object.entries(reviewsMap).map(([id, text]) => {
                   const movieId = Number(id);
-                  const movie = movies.find(m => m.id === movieId) || extraMovies[movieId];
+                  const movie = movies.find(m => m.id === movieId) 
+                              || (extraMovies.hasOwnProperty(movieId) 
+                                  ? extraMovies[movieId] 
+                                  : undefined);          
 
                   return (
                     <div key={id} className={styles.movieCard}>
-                      {movie?.poster_path ? (
+                      {movie === undefined ? (
+                        <div className={styles.loadingPoster}>Loading poster…</div>
+                      ) : movie === null ? (
+                        <div className={styles.notFoundPoster}>Poster not available</div>
+                      ) : (
                         <img
                           src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                           alt={movie.title}
                           className={styles.moviePoster}
                           onClick={() => handleMovieClick(movie)}
                         />
-                      ) : (
-                        <div style={{
-                          height: "300px",
-                          background: "#222",
-                          color: "#fff",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center"
-                        }}>
-                          Loading poster...
-                        </div>
                       )}
-                      <h3>{movie?.title || `Loading movie ${id}...`}</h3>
+                      <h3>
+                        {movie === undefined
+                          ? `Loading movie ${id}…`
+                          : movie === null
+                            ? `Movie ${id} not found`
+                            : movie.title}
+                      </h3>
                       <p>{text}</p>
                     </div>
                   );
+
                 })}
               </div>
             ) : (

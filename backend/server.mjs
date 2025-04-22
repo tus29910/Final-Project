@@ -70,12 +70,19 @@ app.get('/api/movies/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const response = await fetch(`${baseUrl}/movie/${id}?api_key=${apiKey}`);
+    if (!response.ok) {
+      return res
+        .status(response.status)
+        .json(await response.json());
+    }
     const data = await response.json();
     res.json(data);
   } catch (err) {
+    console.error(`Error fetching movie ${id}:`, err);
     res.status(500).json({ error: "Failed to fetch movie by ID" });
   }
 });
+
 
 
 app.listen(5000, () => {
