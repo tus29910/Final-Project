@@ -66,12 +66,23 @@ const Home = () => {
       const res = await fetch(`${backendURL}/api/movies/${id}`);
       const data = await res.json();
       setExtraMovies(prev => ({ ...prev, [id]: data }));
-      return data;
     } catch (err) {
       console.error(`Failed to fetch movie ${id}`, err);
-      return null;
     }
   };
+
+  useEffect(() => {
+    const fetchMissingMovies = async () => {
+      const reviewedIds = Object.keys(reviewsMap).map(id => Number(id));
+      for (const id of reviewedIds) {
+        const alreadyLoaded = movies.find(m => m.id === id) || extraMovies[id];
+        if (!alreadyLoaded) {
+          await fetchMovieById(id);
+        }
+      }
+    };
+    fetchMissingMovies();
+  }, [reviewsMap, movies]);
 
   const handleSearch = async e => {
     e.preventDefault();
@@ -177,12 +188,6 @@ const Home = () => {
                 {Object.entries(reviewsMap).map(([id, text]) => {
                   const movieId = Number(id);
                   const movie = movies.find(m => m.id === movieId) || extraMovies[movieId];
-
-                  useEffect(() => {
-                    if (!movie && !extraMovies[movieId]) {
-                      fetchMovieById(movieId);
-                    }
-                  }, [movieId, movie]);
 
                   return (
                     <div key={id} className={styles.movieCard}>
