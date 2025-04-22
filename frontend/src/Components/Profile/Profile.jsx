@@ -7,14 +7,24 @@ const Profile = () => {
   const [userReviews, setUserReviews] = useState([]);
   const [movies, setMovies] = useState([]);
   const [movieTitles, setMovieTitles] = useState({});
+  
 
   useEffect(() => {
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    const storedUser = JSON.parse(localStorage.getItem("currentUser"));
+
     const allReviews = JSON.parse(localStorage.getItem("reviews")) || [];
     const storedMovies = JSON.parse(localStorage.getItem("allMovies")) || [];
 
     if (currentUser) {
       setUser(currentUser);
+      if (storedUser) {
+             const savedPic = localStorage.getItem(`profilePic_${storedUser.username}`);
+             if (savedPic) {
+               storedUser.profile_picture = savedPic;
+               localStorage.setItem("currentUser", JSON.stringify(storedUser));
+             }
+             setUser(storedUser);
       const reviews = allReviews.filter(r => r.username === currentUser.username);
       setUserReviews(reviews);
     }
@@ -22,7 +32,7 @@ const Profile = () => {
     if (storedMovies.length) {
       setMovies(storedMovies);
     }
-  }, []);
+  }}, []);
 
   useEffect(() => {
     const fetchMissingMovies = async () => {
@@ -61,6 +71,9 @@ const Profile = () => {
     reader.onloadend = () => {
       const updatedUser = { ...user, profile_picture: reader.result };
       localStorage.setItem("currentUser", JSON.stringify(updatedUser));
+      localStorage.setItem(
+        `profilePic_${updatedUser.username}`,
+        reader.result);
       setUser(updatedUser);
     };
     reader.readAsDataURL(file);

@@ -108,8 +108,6 @@ const Home = () => {
     localStorage.setItem(`reviews_${username}`, JSON.stringify(updatedReviews));
     setReviewInputs({ ...reviewInputs, [movie.id]: "" });
 
-
-    // Recommend other movies with at least one matching genre
     const recommended = movies.filter(m =>
       m.id !== movie.id && m.genre_ids.some(g => movie.genre_ids.includes(g))
     );
@@ -121,7 +119,7 @@ const Home = () => {
     <div className={styles.home}>
       <Navbar />
       <main className={styles.content}>
-        <h1>Welcome, {username}</h1>
+        <h1>Welcome {username}</h1>
         <p>Explore and review your favorite movies!</p>
 
 
@@ -196,23 +194,34 @@ const Home = () => {
 
 
         {recommendations.length > 0 && (
-          <div className={styles.recommendationSection}>
-            <h2>Recommended Based on Your Review</h2>
-            <div className={styles.movieList}>
-              {recommendations.map((movie) => (
-                <div key={movie.id} className={styles.movieCard}>
-                  <img
-                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                    alt={movie.title}
-                    className={styles.moviePoster}
-                    onClick={() => handleMovieClick(movie)}
-                  />
-                  <h3>{movie.title}</h3>
-                </div>
-              ))}
-            </div>
-          </div>
+         <div className={styles.recommendationSection}>
+         <h2>Your Past Reviews</h2>
+         {Object.keys(reviews).length > 0 ? (
+           <div className={styles.movieList}>
+             {Object.entries(reviews).map(([movieId, review]) => {
+               const movie = movies.find(m => m.id === Number(movieId));
+               return (
+                 <div key={movieId} className={styles.movieCard}>
+                   {movie?.poster_path && (
+                     <img
+                       src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                       alt={movie.title}
+                       className={styles.moviePoster}
+                       onClick={() => movie && handleMovieClick(movie)}
+                     />
+                   )}
+                   <h3>{movie?.title || `Movie #${movieId}`}</h3>
+                   <p><strong>Your Review:</strong> {review.text}</p>
+                 </div>
+               );
+             })}
+           </div>
+         ) : (
+           <p>You haven’t reviewed any movies yet.</p>
+         )}
+       </div>
         )}
+
       </main>
       <Footer />
     </div>
