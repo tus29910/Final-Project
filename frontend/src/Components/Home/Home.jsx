@@ -18,6 +18,11 @@ const Home = () => {
   const backendURL = import.meta.env.VITE_BACKEND_URL
   const endpoint = `${backendURL}/api/movies/popular`;
 
+  const handleReset = () => {
+    setQuery("");
+    setFilteredMovies(movies);
+  };
+
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
     if (storedUsername) {
@@ -121,16 +126,33 @@ const Home = () => {
 
 
         <div className={styles.searchContainer}>
-          <input
-            type="text"
-            value={query}
-            onChange={handleQueryChange}
-            placeholder="Search movies..."
-            className={styles.searchInput}
-          />
-          <button onClick={handleSearch} className={styles.searchButton}>
-            Search
-          </button>
+          <div className={styles.searchForm}>
+            <input
+              type="text"
+              value={query}
+              onChange={handleQueryChange}
+              placeholder="Search movies..."
+              className={styles.searchInput}
+            />
+
+            <div className={styles.buttonGroup}>
+              <button
+                type="button"
+                onClick={handleSearch}
+                className={styles.searchButton}
+              >
+                Search
+              </button>
+
+              <button
+                type="button"
+                onClick={handleReset}
+                className={styles.resetButton}
+              >
+                Reset
+              </button>
+            </div>
+          </div>
         </div>
 
 
