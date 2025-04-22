@@ -7,7 +7,7 @@ dotenv.config();
 const app = express();
 
 const baseUrl = "https://api.themoviedb.org/3";
-const apiKey = import.meta.env.VITE_API_KEY;
+const apiKey = process.env.VITE_API_KEY;
 
 app.use(
   cors({
