@@ -27,10 +27,12 @@ const Home = () => {
       setUsername(storedUsername);
     }
 
+const backendURL = import.meta.env.VITE_BACKEND_URL
+const endpoint = `${backendURL}/api/movies/popular`;
 
     const fetchMovies = async () => {
       try {
-        const response = await fetch(API_URL);
+        const response = await fetch(endpoint);
         const data = await response.json();
         setMovies(data.results);
         setFilteredMovies(data.results);
@@ -44,8 +46,6 @@ const Home = () => {
 
     const savedReviews = JSON.parse(localStorage.getItem(`reviews_${storedUsername}`)) || {};
     setReviews(savedReviews);
-
-
     fetchMovies();
   }, []);
 
