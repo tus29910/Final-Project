@@ -16,6 +16,8 @@ app.use(
       "http://localhost:5000",
       "https://react-demo-code-proxy.onrender.com",
       "https://react-demo-code-front-end.onrender.com",
+      "https://cis3344-final-project-backend.onrender.com",
+      "https://cis3344-final-project-frontend.onrender.com",
     ],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
