@@ -169,6 +169,10 @@
 
 .pastReviewsSection .movieList,
 .recommendationSection .movieList {
+  display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 250px));
   justify-content: center;
+  gap: 2rem;
+  width: 100%;
+  padding: 1rem 0;
 }
