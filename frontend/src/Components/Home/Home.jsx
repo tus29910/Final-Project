@@ -1,138 +1,97 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
-import styles from './Home.module.css';
+import { useNavigate } from "react-router-dom";
+import styles from "./Home.module.css";
 import Navbar from "../Navbar/Navbar";
-import Footer from '../Footer/footer';
-
+import Footer from "../Footer/footer";
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
-  const [query, setQuery] = useState('');
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [reviews, setReviews] = useState({});
-  const [recommendations, setRecommendations] = useState([]);
-  const [reviewInputs, setReviewInputs] = useState({});
+  const [username, setUsername] = useState("");
+  const [reviewsMap, setReviewsMap] = useState({});
+  const [query, setQuery] = useState("");
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
-  const backendURL = import.meta.env.VITE_BACKEND_URL
-  const endpoint = `${backendURL}/api/movies/popular`;
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+    if (storedUsername) {
+      setUsername(storedUsername);
+      const allReviews = JSON.parse(localStorage.getItem("reviews")) || [];
+      const myReviews = allReviews.filter(r => r.username === storedUsername);
+      const map = {};
+      myReviews.forEach(r => {
+        map[r.movieId] = r.reviewText;
+      });
+      setReviewsMap(map);
+    }
+    const fetchMovies = async () => {
+      try {
+        const res = await fetch(`${backendURL}/api/movies/popular`);
+        const data = await res.json();
+        setMovies(data.results);
+        setFilteredMovies(data.results);
+      } catch (err) {
+        console.error("Error fetching movies:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchMovies();
+  }, [backendURL]);
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    if (!query.trim()) {
+      setFilteredMovies(movies);
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch(
+        `${backendURL}/api/movies/search?query=${encodeURIComponent(query)}`
+      );
+      const data = await res.json();
+      setFilteredMovies(data.results || []);
+    } catch (err) {
+      console.error("Search error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleReset = () => {
     setQuery("");
     setFilteredMovies(movies);
   };
 
-  useEffect(() => {
-    const storedUsername = localStorage.getItem("username");
-    if (storedUsername) {
-      setUsername(storedUsername);
+  const renderReviewLine = (movieId) => {
+    if (!username) {
+      return <em>Create an account to leave a review.</em>;
     }
+    const text = reviewsMap[movieId] || "No review yet";
+    return <span><strong>Your Review:</strong> {text}</span>;
+  };
 
-    const fetchMovies = async () => {
-      try {
-        const response = await fetch(endpoint);
-        const data = await response.json();
-        setMovies(data.results);
-        setFilteredMovies(data.results);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching movies:", error);
-        setLoading(false);
-      }
-    };
-
-
-    const savedReviews = JSON.parse(localStorage.getItem(`reviews_${storedUsername}`)) || {};
-    setReviews(savedReviews);
-    fetchMovies();
-  }, []);
-
-
-   const handleSearch = async (e) => {
-       e.preventDefault();
-       if (!query.trim()) {
-         setFilteredMovies(movies);
-         return;
-       }
-    
-       setLoading(true);
-       try {
-         const response = await fetch(
-           `${backendURL}/api/movies/search?query=${encodeURIComponent(query)}`
-         );
-         const data = await response.json();
-         setFilteredMovies(data.results || []);
-       } catch (err) {
-         console.error("Search error:", err);
-       } finally {
-         setLoading(false);
-       }
-    };
-
-
-  const handleMovieClick = (movie) => {
+  const handleMovieClick = (movie) =>
     navigate(`/movie/${movie.id}`, { state: { movie } });
-  };
-
-
-  const handleQueryChange = (e) => {
-    setQuery(e.target.value);
-  };
-
-
-  const getUserReview = (movieId) => {
-    return reviews[movieId]?.text || "No review yet";
-  };
-
-
-  const handleReviewInputChange = (movieId, value) => {
-    setReviewInputs({ ...reviewInputs, [movieId]: value });
-  };
-
-
-  const handleReviewSubmit = (movie) => {
-    const newReview = {
-      text: reviewInputs[movie.id] || "",
-      genre_ids: movie.genre_ids,
-    };
-
-
-    const updatedReviews = {
-      ...reviews,
-      [movie.id]: newReview,
-    };
-
-
-    setReviews(updatedReviews);
-    localStorage.setItem(`reviews_${username}`, JSON.stringify(updatedReviews));
-    setReviewInputs({ ...reviewInputs, [movie.id]: "" });
-
-    const recommended = movies.filter(m =>
-      m.id !== movie.id && m.genre_ids.some(g => movie.genre_ids.includes(g))
-    );
-    setRecommendations(recommended);
-  };
-
 
   return (
     <div className={styles.home}>
       <Navbar />
       <main className={styles.content}>
-        <h1>Welcome {username}</h1>
+        <h1>Welcome {username || "Guest"}</h1>
         <p>Explore and review your favorite movies!</p>
-
-
         <div className={styles.searchContainer}>
           <div className={styles.searchForm}>
             <input
               type="text"
               value={query}
-              onChange={handleQueryChange}
+              onChange={e => setQuery(e.target.value)}
               placeholder="Search movies..."
               className={styles.searchInput}
             />
-
             <div className={styles.buttonGroup}>
               <button
                 type="button"
@@ -141,7 +100,6 @@ const Home = () => {
               >
                 Search
               </button>
-
               <button
                 type="button"
                 onClick={handleReset}
@@ -152,81 +110,64 @@ const Home = () => {
             </div>
           </div>
         </div>
-
-
         <h2>{query ? `Results for "${query}"` : "Popular Movies:"}</h2>
-
-
         {loading ? (
           <p>Loading movies...</p>
         ) : (
           <div className={styles.movieList}>
-            {filteredMovies.map((movie) => (
+            {filteredMovies.map(movie => (
               <div
                 key={movie.id}
                 className={styles.movieCard}
                 style={{ cursor: 'pointer' }}
+                onClick={() => handleMovieClick(movie)}
               >
                 <img
                   src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                   alt={movie.title}
                   className={styles.moviePoster}
-                  onClick={() => handleMovieClick(movie)}
                 />
                 <h3>{movie.title}</h3>
                 <p>{movie.overview}</p>
-                <p><strong>Your Review:</strong> {getUserReview(movie.id)}</p>
-
-
-                <textarea
-                  placeholder="Write a review..."
-                  value={reviewInputs[movie.id] || ""}
-                  onChange={(e) => handleReviewInputChange(movie.id, e.target.value)}
-                  className={styles.reviewInput}
-                />
-                <button onClick={() => handleReviewSubmit(movie)} className={styles.submitReview}>
-                  Submit Review & Get Recommendations
-                </button>
+                <p>{renderReviewLine(movie.id)}</p>
               </div>
             ))}
           </div>
         )}
-
-
-        {recommendations.length > 0 && (
-         <div className={styles.recommendationSection}>
-         <h2>Your Past Reviews</h2>
-         {Object.keys(reviews).length > 0 ? (
-           <div className={styles.movieList}>
-             {Object.entries(reviews).map(([movieId, review]) => {
-               const movie = movies.find(m => m.id === Number(movieId));
-               return (
-                 <div key={movieId} className={styles.movieCard}>
-                   {movie?.poster_path && (
-                     <img
-                       src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                       alt={movie.title}
-                       className={styles.moviePoster}
-                       onClick={() => movie && handleMovieClick(movie)}
-                     />
-                   )}
-                   <h3>{movie?.title || `Movie #${movieId}`}</h3>
-                   <p><strong>Your Review:</strong> {review.text}</p>
-                 </div>
-               );
-             })}
-           </div>
-         ) : (
-           <p>You haven’t reviewed any movies yet.</p>
-         )}
-       </div>
-        )}
-
+        <div className={styles.pastReviewsSection}>
+          <h2>Your Past Reviews</h2>
+          {username ? (
+            Object.keys(reviewsMap).length > 0 ? (
+              <div className={styles.movieList}>
+                {Object.entries(reviewsMap).map(([id, text]) => {
+                  const movie = movies.find(m => m.id === Number(id));
+                  return (
+                    <div key={id} className={styles.movieCard}>
+                      {movie?.poster_path && (
+                        <img
+                          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                          alt={movie.title}
+                          className={styles.moviePoster}
+                          onClick={() => movie && handleMovieClick(movie)}
+                        />
+                      )}
+                      <h3>{movie?.title || `Movie ${id}`}</h3>
+                      <p>{text}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <p>You haven’t reviewed any movies yet.</p>
+            )
+          ) : (
+            <p>Create an account to start leaving reviews.</p>
+          )}
+        </div>
       </main>
       <Footer />
     </div>
   );
 };
-
 
 export default Home;
