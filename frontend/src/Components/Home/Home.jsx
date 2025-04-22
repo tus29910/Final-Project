@@ -65,6 +65,7 @@ const Home = () => {
     try {
       const res = await fetch(`${backendURL}/api/movies/${id}`);
       const data = await res.json();
+      console.log("Fetched movie by ID:", id, data); // ✅ debug
       setExtraMovies(prev => ({ ...prev, [id]: data }));
     } catch (err) {
       console.error(`Failed to fetch movie ${id}`, err);
@@ -77,6 +78,7 @@ const Home = () => {
       for (const id of reviewedIds) {
         const alreadyLoaded = movies.find(m => m.id === id) || extraMovies[id];
         if (!alreadyLoaded) {
+          console.log("Fetching missing movie:", id);
           await fetchMovieById(id);
         }
       }
@@ -191,15 +193,26 @@ const Home = () => {
 
                   return (
                     <div key={id} className={styles.movieCard}>
-                      {movie?.poster_path && (
+                      {movie?.poster_path ? (
                         <img
                           src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                           alt={movie.title}
                           className={styles.moviePoster}
                           onClick={() => handleMovieClick(movie)}
                         />
+                      ) : (
+                        <div style={{
+                          height: "300px",
+                          background: "#222",
+                          color: "#fff",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center"
+                        }}>
+                          Loading poster...
+                        </div>
                       )}
-                      <h3>{movie?.title || `Movie ${id}`}</h3>
+                      <h3>{movie?.title || `Loading movie ${id}...`}</h3>
                       <p>{text}</p>
                     </div>
                   );
