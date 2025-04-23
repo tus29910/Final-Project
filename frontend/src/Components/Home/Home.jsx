@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Home.module.css";
 import Navbar from "../Navbar/Navbar";
-import Footer from "../Footer/Footer";
+import Footer from "../Footer/footer";
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
