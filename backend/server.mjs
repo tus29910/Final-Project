@@ -18,6 +18,8 @@ app.use(
       "https://react-demo-code-front-end.onrender.com",
       "https://cis3344-final-project-backend.onrender.com",
       "https://cis3344-final-project-frontend.onrender.com",
+      "https://final-project-billy-backend.onrender.com",
+      "https://final-project-billy-frontend.onrender.com"
     ],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
