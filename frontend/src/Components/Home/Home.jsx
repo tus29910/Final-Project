@@ -75,7 +75,6 @@ const Home = () => {
       setExtraMovies(prev => ({ ...prev, [id]: null }));
     }
   };
-  
 
   useEffect(() => {
     const fetchMissingMovies = async () => {
@@ -83,7 +82,6 @@ const Home = () => {
       for (const id of reviewedIds) {
         const alreadyLoaded = movies.find(m => m.id === id) || extraMovies[id];
         if (!alreadyLoaded) {
-          console.log("Fetching missing movie:", id);
           await fetchMovieById(id);
         }
       }
@@ -247,11 +245,11 @@ const Home = () => {
                 >
                   <img
                     src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                    alt={movie.title}
-                    className={styles.moviePoster}
-                  />
-                  <h3>{movie.title}</h3>
-                </div>
+                  alt={movie.title}
+                  className={styles.moviePoster}
+                />
+                <h3>{movie.title}</h3>
+              </div>
               ))}
             </div>
           </div>
