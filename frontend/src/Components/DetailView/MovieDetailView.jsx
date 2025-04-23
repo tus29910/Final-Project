@@ -9,10 +9,6 @@ const MovieDetailView = () => {
   const navigate = useNavigate();
   const movie = state?.movie;
 
-  const genreIds = movie
-    ? (movie.genre_ids ?? movie.genres?.map(g => g.id) ?? [])
-    : [];
-
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
@@ -89,7 +85,7 @@ const MovieDetailView = () => {
             <h1 className={styles.title}>{movie.title}</h1>
           </div>
           <div className={styles.details}>
-            <p><strong>Genre:</strong> {getGenres(genreIds)}</p>
+            <p><strong>Genre:</strong> {getGenres(movie.genre_ids)}</p>
             <p><strong>Rating:</strong> {movie.vote_average.toFixed(1)} / 10</p>
             <p><strong>Overview:</strong> {movie.overview}</p>
 
