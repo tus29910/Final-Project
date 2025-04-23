@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Home.module.css";
 import Navbar from "../Navbar/Navbar";
-import Footer from "../Footer/footer";
+import Footer from "../Footer/Footer";
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
@@ -75,7 +75,6 @@ const Home = () => {
       setExtraMovies(prev => ({ ...prev, [id]: null }));
     }
   };
-  
 
   useEffect(() => {
     const fetchMissingMovies = async () => {
@@ -83,7 +82,6 @@ const Home = () => {
       for (const id of reviewedIds) {
         const alreadyLoaded = movies.find(m => m.id === id) || extraMovies[id];
         if (!alreadyLoaded) {
-          console.log("Fetching missing movie:", id);
           await fetchMovieById(id);
         }
       }
@@ -144,18 +142,10 @@ const Home = () => {
               className={styles.searchInput}
             />
             <div className={styles.buttonGroup}>
-              <button
-                type="button"
-                onClick={handleSearch}
-                className={styles.searchButton}
-              >
+              <button type="button" onClick={handleSearch} className={styles.searchButton}>
                 Search
               </button>
-              <button
-                type="button"
-                onClick={handleReset}
-                className={styles.resetButton}
-              >
+              <button type="button" onClick={handleReset} className={styles.resetButton}>
                 Reset
               </button>
             </div>
@@ -194,10 +184,11 @@ const Home = () => {
               <div className={styles.movieList}>
                 {Object.entries(reviewsMap).map(([id, text]) => {
                   const movieId = Number(id);
-                  const movie = movies.find(m => m.id === movieId) 
-                              || (extraMovies.hasOwnProperty(movieId) 
-                                  ? extraMovies[movieId] 
-                                  : undefined);          
+                  const movie =
+                    movies.find(m => m.id === movieId) ||
+                    (extraMovies.hasOwnProperty(movieId)
+                      ? extraMovies[movieId]
+                      : undefined);
 
                   return (
                     <div key={id} className={styles.movieCard}>
@@ -217,13 +208,12 @@ const Home = () => {
                         {movie === undefined
                           ? `Loading movie ${id}…`
                           : movie === null
-                            ? `Movie ${id} not found`
-                            : movie.title}
+                          ? `Movie ${id} not found`
+                          : movie.title}
                       </h3>
                       <p>{text}</p>
                     </div>
                   );
-
                 })}
               </div>
             ) : (
