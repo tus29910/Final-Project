@@ -105,7 +105,7 @@
 
 .movieList {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 250px));
   justify-content: center;
   gap: 2rem;
   margin-top: 2rem;
@@ -120,6 +120,8 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   padding-bottom: 1rem;
+  max-width: 250px;
+  margin: 0 auto;
 }
 
 .movieCard:hover {

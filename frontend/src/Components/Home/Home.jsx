@@ -142,10 +142,18 @@ const Home = () => {
               className={styles.searchInput}
             />
             <div className={styles.buttonGroup}>
-              <button type="button" onClick={handleSearch} className={styles.searchButton}>
+              <button
+                type="button"
+                onClick={handleSearch}
+                className={styles.searchButton}
+              >
                 Search
               </button>
-              <button type="button" onClick={handleReset} className={styles.resetButton}>
+              <button
+                type="button"
+                onClick={handleReset}
+                className={styles.resetButton}
+              >
                 Reset
               </button>
             </div>
@@ -184,11 +192,10 @@ const Home = () => {
               <div className={styles.movieList}>
                 {Object.entries(reviewsMap).map(([id, text]) => {
                   const movieId = Number(id);
-                  const movie =
-                    movies.find(m => m.id === movieId) ||
-                    (extraMovies.hasOwnProperty(movieId)
-                      ? extraMovies[movieId]
-                      : undefined);
+                  const movie = movies.find(m => m.id === movieId) 
+                              || (extraMovies.hasOwnProperty(movieId) 
+                                  ? extraMovies[movieId] 
+                                  : undefined);          
 
                   return (
                     <div key={id} className={styles.movieCard}>
@@ -208,12 +215,13 @@ const Home = () => {
                         {movie === undefined
                           ? `Loading movie ${id}…`
                           : movie === null
-                          ? `Movie ${id} not found`
-                          : movie.title}
+                            ? `Movie ${id} not found`
+                            : movie.title}
                       </h3>
                       <p>{text}</p>
                     </div>
                   );
+
                 })}
               </div>
             ) : (
@@ -237,11 +245,11 @@ const Home = () => {
                 >
                   <img
                     src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                    alt={movie.title}
-                    className={styles.moviePoster}
-                  />
-                  <h3>{movie.title}</h3>
-                </div>
+                  alt={movie.title}
+                  className={styles.moviePoster}
+                />
+                <h3>{movie.title}</h3>
+              </div>
               ))}
             </div>
           </div>
