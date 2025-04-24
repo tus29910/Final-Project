@@ -45,7 +45,13 @@ const Home = () => {
   }, [backendURL]);
 
   useEffect(() => {
-    const reviewedIds = Object.keys(reviewsMap).map(id => Number(id));
+    const reviewedIds = Object.keys(reviewsMap).map(id => Number(id));  
+    const allLoaded = reviewedIds.every(
+      id => movies.find(m => m.id === id) || extraMovies[id]
+    );
+  
+    if (!allLoaded) return;
+  
     const genreSet = new Set();
   
     reviewedIds.forEach(id => {
