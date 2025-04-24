@@ -49,8 +49,7 @@ const Home = () => {
     const genreSet = new Set();
   
     reviewedIds.forEach(id => {
-      const movie =
-        movies.find(m => m.id === id) || extraMovies[id];
+      const movie = movies.find(m => m.id === id) || extraMovies[id];
       if (movie?.genre_ids) {
         movie.genre_ids.forEach(g => genreSet.add(g));
       }
@@ -62,8 +61,12 @@ const Home = () => {
       m.genre_ids.some(g => genreSet.has(g))
     );
   
+    console.log("Genre Set:", Array.from(genreSet));
+    console.log("Recommendations found:", recs.map(m => m.title));
+  
     setRecommendations(recs);
   }, [reviewsMap, movies, extraMovies]);
+  
   
 
   const fetchMovieById = async (id) => {
