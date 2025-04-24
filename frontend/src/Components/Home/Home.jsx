@@ -54,7 +54,6 @@ const Home = () => {
     const allLoaded = allReviewedMovies.every(movie => movie !== undefined && movie !== null);
   
     if (!allLoaded) {
-      console.log("⏳ Waiting for all reviewed movies to load...");
       return;
     }
   
@@ -66,7 +65,6 @@ const Home = () => {
     });
   
     if (genreSet.size === 0) {
-      console.log("🚫 No genres found in reviewed movies.");
       return;
     }
   
@@ -77,9 +75,6 @@ const Home = () => {
       m.genre_ids.some(g => genreSet.has(g))
     );
   
-    console.log("✅ Genre Set:", Array.from(genreSet));
-    console.log("✅ Recommendations found:", recs.map(m => m.title));
-  
     setRecommendations(recs);
   }, [reviewsMap, movies, extraMovies]);
   
@@ -88,7 +83,6 @@ const Home = () => {
     try {
       const res = await fetch(`${backendURL}/api/movies/${id}`);
       if (!res.ok) {
-        console.warn(`No movie ${id}:`, await res.json());
         setExtraMovies(prev => ({ ...prev, [id]: null }));
         return;
       }
@@ -98,11 +92,8 @@ const Home = () => {
         data.genre_ids = data.genres.map(g => g.id);
       }
   
-      console.log("🎥 Movie fetched by ID:", data);
-  
       setExtraMovies(prev => ({ ...prev, [id]: data }));
     } catch (err) {
-      console.error(`Failed to fetch movie ${id}`, err);
       setExtraMovies(prev => ({ ...prev, [id]: null }));
     }
   };
@@ -115,7 +106,6 @@ const Home = () => {
       for (const id of reviewedIds) {
         const alreadyLoaded = movies.find(m => m.id === id) || extraMovies[id];
         if (!alreadyLoaded) {
-          console.log("Fetching missing movie:", id);
           await fetchMovieById(id);
         }
       }
