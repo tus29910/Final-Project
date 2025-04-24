@@ -47,18 +47,24 @@ const Home = () => {
   useEffect(() => {
     const reviewedIds = Object.keys(reviewsMap).map(id => Number(id));
     const genreSet = new Set();
+  
     reviewedIds.forEach(id => {
-      const movie = movies.find(m => m.id === id);
+      const movie =
+        movies.find(m => m.id === id) || extraMovies[id];
       if (movie?.genre_ids) {
         movie.genre_ids.forEach(g => genreSet.add(g));
       }
     });
-    const recs = movies.filter(m =>
+  
+    const allMovies = [...movies, ...Object.values(extraMovies).filter(Boolean)];
+    const recs = allMovies.filter(m =>
       !reviewedIds.includes(m.id) &&
       m.genre_ids.some(g => genreSet.has(g))
     );
+  
     setRecommendations(recs);
-  }, [reviewsMap, movies]);
+  }, [reviewsMap, movies, extraMovies]);
+  
 
   const fetchMovieById = async (id) => {
     try {
