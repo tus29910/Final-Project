@@ -93,12 +93,20 @@ const Home = () => {
         return;
       }
       const data = await res.json();
+  
+      if (!data.genre_ids && Array.isArray(data.genres)) {
+        data.genre_ids = data.genres.map(g => g.id);
+      }
+  
+      console.log("🎥 Movie fetched by ID:", data);
+  
       setExtraMovies(prev => ({ ...prev, [id]: data }));
     } catch (err) {
       console.error(`Failed to fetch movie ${id}`, err);
       setExtraMovies(prev => ({ ...prev, [id]: null }));
     }
   };
+  
   
 
   useEffect(() => {
