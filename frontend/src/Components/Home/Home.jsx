@@ -45,34 +45,43 @@ const Home = () => {
   }, [backendURL]);
 
   useEffect(() => {
-    const reviewedIds = Object.keys(reviewsMap).map(id => Number(id));  
-    const allLoaded = reviewedIds.every(
+    const reviewedIds = Object.keys(reviewsMap).map(id => Number(id));
+  
+    const allReviewedMovies = reviewedIds.map(
       id => movies.find(m => m.id === id) || extraMovies[id]
     );
   
-    if (!allLoaded) return;
+    const allLoaded = allReviewedMovies.every(movie => movie !== undefined && movie !== null);
+  
+    if (!allLoaded) {
+      console.log("⏳ Waiting for all reviewed movies to load...");
+      return;
+    }
   
     const genreSet = new Set();
-  
-    reviewedIds.forEach(id => {
-      const movie = movies.find(m => m.id === id) || extraMovies[id];
+    allReviewedMovies.forEach(movie => {
       if (movie?.genre_ids) {
         movie.genre_ids.forEach(g => genreSet.add(g));
       }
     });
   
+    if (genreSet.size === 0) {
+      console.log("🚫 No genres found in reviewed movies.");
+      return;
+    }
+  
     const allMovies = [...movies, ...Object.values(extraMovies).filter(Boolean)];
+  
     const recs = allMovies.filter(m =>
       !reviewedIds.includes(m.id) &&
       m.genre_ids.some(g => genreSet.has(g))
     );
   
-    console.log("Genre Set:", Array.from(genreSet));
-    console.log("Recommendations found:", recs.map(m => m.title));
+    console.log("✅ Genre Set:", Array.from(genreSet));
+    console.log("✅ Recommendations found:", recs.map(m => m.title));
   
     setRecommendations(recs);
   }, [reviewsMap, movies, extraMovies]);
-  
   
 
   const fetchMovieById = async (id) => {
