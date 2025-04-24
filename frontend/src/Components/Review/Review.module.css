@@ -1,0 +1,67 @@
+.reviewForm {
+    background-color: #0b2029;
+    padding: 32px 24px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    color: #8ecae6;
+    box-sizing: border-box; 
+  }
+  
+  
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .textarea {
+    resize: none;
+    padding: 12px;
+    border: 1px solid #4b5563;
+    background-color: #003366;
+    color: #e5e7eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    outline: none;
+  }
+  
+  .textarea:focus {
+    border-color: #ffb703;
+  }
+  
+  .button {
+    background-color: #ffb703;
+    color: #023047;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .button:hover {
+    background-color: #fb8500;
+  }
+  
+  .starSelector {
+    display: flex;
+    gap: 6px;
+    font-size: 2rem;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .star {
+    color: #4b5563;
+    transition: color 0.2s ease;
+  }
+  
+  .active,
+  .star:hover {
+    color: #ffb703;
+  }
+  

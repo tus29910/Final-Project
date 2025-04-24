@@ -1,0 +1,155 @@
+.container {
+  min-height: 100vh;
+  background-color: #023047;
+  padding-bottom: 40px;
+  color: #8ecae6;
+  font-family: Arial, sans-serif;
+}
+
+.wrapper {
+  max-width: 1200px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 0 20px; 
+  box-sizing: border-box;
+  width: 100%;
+}
+
+
+.movieInfoCard {
+  display: flex;
+  flex-direction: column;
+  background-color: #0b2029;
+  border-radius: 12px;
+  padding: 24px;
+  gap: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 100%; 
+  box-sizing: border-box;
+}
+
+
+@media (min-width: 768px) {
+  .movieInfoCard {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+.posterSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.poster {
+  width: 220px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+  color: #ffb703;
+}
+
+.details {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-left: 0;
+}
+
+@media (min-width: 768px) {
+  .details {
+    padding-left: 24px;
+  }
+}
+
+.details p {
+  margin: 0;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.details p strong {
+  color: #ffb703;
+  font-weight: 600;
+}
+
+.details h3 {
+  margin-top: 20px;
+  margin-bottom: 8px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #8ecae6;
+}
+
+.reviews {
+  list-style: disc;
+  list-style-position: inside;
+  margin-top: 8px;
+  color: #d1d5db;
+  padding-left: 0;
+}
+
+.button {
+  background-color: #ffb703;
+  color: #023047;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.button:hover {
+  background-color: #fb8500;
+}
+
+a {
+  color: #8ecae6;
+  text-decoration: underline;
+}
+
+.starRatingDisplay {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  color: #ffb703;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.starSelector {
+  display: flex;
+  gap: 6px;
+  font-size: 2rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.star {
+  color: #4b5563;
+  transition: color 0.2s ease;
+}
+
+.starSelector .active,
+.starSelector .star:hover,
+.starRatingDisplay .star {
+  color: #ffb703;
+}
+
+.ratingText {
+  font-size: 1rem;
+  color: #8ecae6;
+  margin-left: 8px;
+}
